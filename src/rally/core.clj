@@ -1,7 +1,9 @@
 (ns rally.core
+  (:require [rally.window.mainwindow :refer :all])
   (:gen-class))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Start game"
   [& args]
-  (println "Hello, World!"))
+  (start-window)
+  )
