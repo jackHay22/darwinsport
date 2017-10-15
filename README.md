@@ -1,6 +1,6 @@
 # Rally
 
-CLojure-based Rally game
+Clojure-based Rally game
 
 ## Notes
 - Requires Java (recent stable version)
