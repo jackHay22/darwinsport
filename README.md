@@ -1,36 +1,22 @@
-# rally
+# Rally
 
-FIXME: description
+CLojure-based Rally game
 
-## Installation
-
-Download from http://example.com/FIXME.
+## Notes
+- Requires Java (recent stable version)
+- Uses Swing for graphics
 
 ## Usage
 
-FIXME: explanation
+```$ java -jar rally-0.1.0-standalone.jar```
 
-    $ java -jar rally-0.1.0-standalone.jar [args]
+### TODO
+- [ ] Smooth road generation
+- [ ] Vehicle rotation
+- [ ] Collision with objects
+- [ ] Add tons of random generation
+- [ ] Add title screen
+- [ ] Harden
+- [ ] Refactor Swing stuff
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2017 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Copyright © 2017 Jack Hay
