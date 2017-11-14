@@ -11,5 +11,4 @@
   ;run instructions on each test case
   ;send fitness to cluster manager
   ;fitness sent to darwin master
-
   )
