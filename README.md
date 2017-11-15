@@ -1,22 +1,22 @@
 # Rally
-
-Clojure-based Rally game
+Evolved Rally Driver
 
 ## Notes
+- This program is meant as a testing node for Darwin, the work of Jack Hay and Nate Symer.
 - Requires Java (recent stable version)
 - Uses Swing for graphics
 
-## Usage
+## Rally Language
+- ```take_pacenote```  Get next pacenote
+- ```steer_angle <n>```  Change steering angle
+- ```dec_speed <n>```   Decrease speed
+- ```inc_speed <n>```   Increase speed
+- ```while_left_center``` While the direction of the car is left of the center of the road
+- ```while_right_center``` While the direction of the car is left of the center of the road
+- ```if_obs_path```
+- ```if_caution```  If pacenote is caution
+- ```if_right_hairpin```
+- ```if_left_hairpin```
+- ```if_sliding```
 
-```$ java -jar rally-0.1.0-standalone.jar```
-
-### TODO
-- [ ] Smooth road generation
-- [ ] Vehicle rotation
-- [ ] Collision with objects
-- [ ] Add tons of random generation
-- [ ] Add title screen
-- [ ] Harden
-- [ ] Refactor Swing stuff
-
-Copyright © 2017 Jack Hay
+DriverEvolve Copyright © 2017 Jack Hay, Darwin Copyright © 2017 Jack Hay, Nate Symer
