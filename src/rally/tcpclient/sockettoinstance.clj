@@ -1,5 +1,4 @@
 (ns rally.tcpclient.sockettoinstance
-  (:require [rally.config.runconfig :as config])
   (:require [clojure.core.async :as async])
   (:require [rally.testbench.testmanager :as manager])
   (:gen-class))
@@ -18,17 +17,20 @@
 
 (defn persistent-server
     "persistent async TCP server to communicate with network load balancer"
-    [socket]
+    [socket config]
+    (let [manager (manager/send-to-test config)]
     (future (while @running
         ;get data, process in testbench, send back
         (let [new-data (.readLine (io/reader socket))
-              processed (pr-str (manager/send-to-test (read-string new-data)))
+              processed (pr-str (manager (read-string new-data)))
               writer (io/writer socket)]
                 (.write writer processed)
-                (.flush writer)))) running)
+                (.flush writer)))) running))
 
 (defn start-server
     "start and accept a connection to a tcp socket server"
-    [] (let [socket (.accept (ServerSocket. config/port))]
+    [config] (let [socket (.accept (ServerSocket. (:port config)))]
         ;use socket to create async persistent server
-        (persistent-server socket) socket))
+        (do ((:send-log config) "starting_node")
+            (persistent-server socket config)
+            socket)))

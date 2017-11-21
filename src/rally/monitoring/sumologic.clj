@@ -1,12 +1,13 @@
 (ns rally.monitoring.sumologic
   (:require [clj-http.client :as client])
-  (:require [rally.config.runconfig :as config])
   (:gen-class))
 
-(defn send-log
-  "send an http log to sumologic"
-  [log]
-  (client/get (str (:log-endpt config/framework) "?" log) {:async? true}))
+(defn endpoint
+  "send a log to endpt"
+  [endpt instance]
+  (fn [message] (client/get (str endpt "?instance=" instance ", message=" message) {:async? true}
+            (fn [response] (println "response is:" response))
+            (fn [exception] (println "exception message is: " (.getMessage exception))))))
 
 (defn write-log
   "write a text-file to s3 bucket"
