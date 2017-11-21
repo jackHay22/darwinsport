@@ -4,11 +4,9 @@
   (:gen-class))
 
 (defn -main
-  "Start remote test process"
+  "Start remote testing node:
+    -socket server listens for individuals
+    -performs async test on individual and returns
+  "
   [& args]
-  (let [socket (socket/start-server)] )
-  ;start server, read instructions until END
-  ;run instructions on each test case
-  ;send fitness to cluster manager
-  ;fitness sent to darwin master
-  )
+  (socket/start-server))
