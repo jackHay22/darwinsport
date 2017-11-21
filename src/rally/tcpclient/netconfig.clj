@@ -2,5 +2,5 @@
   (:gen-class))
 
 ; ___________ TCP Network Load Balancer ___________
-(def elb-host "192.168.0.14")
+(def elb-host "10.0.1.9")
 (def elb-port 5555)

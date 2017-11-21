@@ -7,9 +7,8 @@
 (defn send-log
   "send an http log to sumologic"
   [log]
-  (client/get (str logendpt "?" log)
-        {:async? true}))
-        
+  (client/get (str logendpt "?" log) {:async? true}))
+
 (defn write-log
   "write a text-file to s3 bucket"
   [message bucket]

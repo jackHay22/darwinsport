@@ -1,12 +1,12 @@
 (ns rally.core
   (:require [rally.monitoring.sumologic :as log])
+  (:require [rally.tcpclient.sockettoinstance :as socket])
   (:gen-class))
 
 (defn -main
   "Start remote test process"
   [& args]
-  (println "Log: Starting remote test client")
-  (log/send-log "type=node_event message=slave_node_started")
+  (let [socket (socket/start-server)] )
   ;start server, read instructions until END
   ;run instructions on each test case
   ;send fitness to cluster manager
