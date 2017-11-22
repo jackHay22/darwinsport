@@ -14,11 +14,13 @@
   "send an individual to the cluster"
   [indiv]
   (let [socket (Socket. target-ip target-port)
-        outputwriter (io/writer socket)]
-          (.write outputwriter (pr-str indiv))
-          (.flush outputwriter)
-          (let [returned (.readLine (io/reader socket))]
-          (.close socket) (println "socket closed") returned)))
+        writer (io/writer socket)
+        reader (DataInputStream. (BufferedInputStream. (.getInputStream socket)))]
+          (.write writer (str (pr-str indiv) "\n"))
+          (.flush writer)
+          ;readline blocks until server response
+          (let [serverresponse (read-string (.readLine reader))]
+            (.close socket) serverresponse)))
 
 (defn test-on-node
     "for each test, send individual to node"
