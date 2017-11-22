@@ -1,10 +1,10 @@
 # Rally
-Evolved Rally Driver
+Genetically Evolved Rally Driver
 
 ## Notes
 - This program is meant as a testing node for Darwin, the work of Jack Hay and Nate Symer.
 - Requires Java (recent stable version)
-- Uses Swing for graphics
+- This repo is used for creating compute node images that are compatible with darwin running in a distributed setup
 
 ## Rally Language
 - ```take_pacenote```  Get next pacenote
@@ -19,4 +19,4 @@ Evolved Rally Driver
 - ```if_left_hairpin```
 - ```if_sliding```
 
-DriverEvolve Copyright © 2017 Jack Hay, Darwin Copyright © 2017 Jack Hay, Nate Symer
+RallyEvolve Copyright © 2017 Jack Hay, Darwin Copyright © 2017 Jack Hay, Nate Symer
