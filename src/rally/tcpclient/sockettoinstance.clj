@@ -4,7 +4,7 @@
   (:gen-class))
 
 (require '[clojure.java.io :as io])
-(import '[java.net Socket])
+(import '[java.net ServerSocket])
 
 ; ___________ Socket Server ___________
 
@@ -19,17 +19,19 @@
     "persistent async TCP server to communicate with network load balancer"
     [socket config]
     (let [manager (manager/send-to-test config)]
-    (future (while @running
-        ;get data, process in testbench, send back
-        (let [new-data (.readLine (io/reader socket))
-              processed (pr-str (manager (read-string new-data)))
-              writer (io/writer socket)]
-                (.write writer processed)
-                (.flush writer)))) running))
+      (future
+        (while @running
+          ;get data, process in testbench, send back
+          (with-open [server (.accept socket)]
+            (let [new-data (.readLine (io/reader server))
+                  processed (pr-str (manager (read-string new-data)))
+                  writer (io/writer server)]
+                  (.write writer processed)
+                  (.flush writer))))) running))
 
 (defn start-server
     "start and accept a connection to a tcp socket server"
-    [config] (let [socket (.accept (ServerSocket. (:port config)))]
+    [config] (let [socket (ServerSocket. (:port config))]
         ;use socket to create async persistent server
         (do ((:send-log config) "starting_node")
             (persistent-server socket config)
