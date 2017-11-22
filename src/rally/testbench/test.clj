@@ -26,12 +26,17 @@
   [image]
   (fn [x y width height] (.getSubimage image x y width height)))
 
+(defn change-attribute
+  "change an attribute"
+  [valmap attrib val]
+  (assoc valmap attrib val))
+
 (defn perform-move
   "for a mapfile, reduce moves to location map"
   [map-file config]
   (fn [location move]
     (cond
-        (= (first move) "steering-angle") ()
+        (= (first move) "steering-angle") (simulate-move (change-attribute location :angle (second move)))
         (= (first move) "apply-break") ()
         (= (first move) "apply-gas") ()
         (= (first move) "while-straight") ()

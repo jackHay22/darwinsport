@@ -1,4 +1,4 @@
-FROM docker pull hypriot/rpi-java
+FROM hypriot/rpi-java
 
 MAINTAINER Jack Hay
 
@@ -7,4 +7,4 @@ ADD run.sh /run.sh
 
 EXPOSE 5555
 
-ENTRYPOINT ["/run.sh"]
+ENTRYPOINT ./run.sh $INSTANCE

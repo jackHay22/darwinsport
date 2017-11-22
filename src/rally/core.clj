@@ -9,5 +9,6 @@
     -performs async test on individual and returns
   "
   [instance]
+  ;add current instance id to config
   (socket/start-server
     (assoc config/framework :send-log ((:send-log config/framework) instance))))
