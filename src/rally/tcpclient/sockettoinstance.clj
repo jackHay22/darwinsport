@@ -4,7 +4,7 @@
   (:gen-class))
 
 (require '[clojure.java.io :as io])
-(import '[java.net ServerSocket])
+(import '[java.net Socket])
 
 ; ___________ Socket Server ___________
 
