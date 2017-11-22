@@ -24,7 +24,8 @@
           ;get data, process in testbench, send back
           (with-open [server (.accept socket)]
             (let [new-data (.readLine (io/reader server))
-                  processed (pr-str (manager (read-string new-data)))
+                  tested (manager (read-string new-data))
+                  processed (pr-str tested)
                   writer (io/writer server)]
                   (.write writer processed)
                   (.flush writer))))) running))

@@ -12,4 +12,5 @@
             ;send config to testing
             ;return individual to be shipped by socket
             ;(log/send-log-metadata "data=" codestack)
+            (Thread/sleep 10000)
             (assoc individual :movestack (+ 1 codestack)))))
