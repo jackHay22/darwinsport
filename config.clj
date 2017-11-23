@@ -8,25 +8,24 @@
 (require '[clojure.java.io :as io])
 (import '[java.net Socket])
 
+(def target-ip "")
+(def target-port 5555)
+
 ;push incoming socket connection to channel: (go (>! inbound-stack input))
 
 (defn send-to-cluster
   "send an individual to the cluster"
-  [indiv]
-  (let [socket (Socket. target-ip target-port)
+  [indiv test-number]
+  (let [mark-indiv (assoc indiv :test-number test-number)
+        socket (Socket. target-ip target-port)
         writer (io/writer socket)
         reader (DataInputStream. (BufferedInputStream. (.getInputStream socket)))]
-          (.write writer (str (pr-str indiv) "\n"))
+          (.write writer (str (pr-str mark-indiv) "\n"))
           (.flush writer)
           ;readline blocks until server response
           (let [serverresponse (read-string (.readLine reader))]
             (.close socket) serverresponse)))
 
-(defn test-on-node
-    "for each test, send individual to node"
-    [test]
-    (fn [individual]
-      (send-to-cluster (assoc individual :test-number test))))
 
 (def configuration
   {:genomic true
@@ -35,8 +34,8 @@
    :inputses '(())
    :program-arity 0
    :testcases (list
-                (test-on-node 1)
-                (test-on-node 2))
+                #(send-to-cluster % 1)
+                #(send-to-cluster % 2))
    :behavioral-diversity #(testing/calculate-behavior-div % 5) ; TODO: play with the frame
    :max-generations 500
    :population-size 200
