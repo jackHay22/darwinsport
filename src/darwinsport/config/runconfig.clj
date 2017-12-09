@@ -4,12 +4,10 @@
 
 (def framework
   {:tests
-    {:test-list '("testfiles/test1" "testfiles/test2")
-     :map-width 100
-     :map-height 800
-     :vehicle-start '(50 780)
-     :launch-speed 10
-     :launch-angle 90}
+    {:test-list '("testfiles/test1.txt" "testfiles/test2.txt")
+     :field-width 200
+     :field-height 400
+     :hard-bounds true}
    :port 5555
    :send-log #(logger/endpoint "https://endpoint2.collection.us2.sumologic.com/receiver/v1/http/ZaVnC4dhaV02hejcH69FH9sJ1hcLNfRdkmyphHE6krl3Oa0SEO07-rOvlDANYAlsn_Dr6boOHweSrdyEQCJT40R0VisjC8vpIBJhVlWhWeSu4MSGEhTOtg==" %)
 })

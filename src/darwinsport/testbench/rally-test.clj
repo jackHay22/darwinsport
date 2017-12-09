@@ -1,4 +1,4 @@
-(ns darwinsport.testbench.tests
+(ns darwinsport.testbench.rally-test
   (:gen-class))
 
 (import javax.imageio.ImageIO)
