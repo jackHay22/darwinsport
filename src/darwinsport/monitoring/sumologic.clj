@@ -1,4 +1,4 @@
-(ns rally.monitoring.sumologic
+(ns darwinsport.monitoring.sumologic
   (:require [clj-http.client :as client])
   (:gen-class))
 

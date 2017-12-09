@@ -1,6 +1,6 @@
-(ns rally.tcpclient.sockettoinstance
+(ns darwinsport.tcpclient.sockettoinstance
   (:require [clojure.core.async :as async])
-  (:require [rally.testbench.testmanager :as manager])
+  (:require [darwinsport.testbench.testmanager :as manager])
   (:gen-class))
 
 (require '[clojure.java.io :as io])

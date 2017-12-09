@@ -1,4 +1,4 @@
-(ns rally.testbench.testmanager
+(ns darwinsport.testbench.testmanager
   (:gen-class))
 
 (defn send-to-test

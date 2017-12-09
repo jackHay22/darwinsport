@@ -1,4 +1,4 @@
-(ns rally.utilities.computervision.2d
+(ns darwinsport.utilities.computervision.2d
   (:gen-class))
 
 (import java.io.File)

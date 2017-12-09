@@ -1,6 +1,6 @@
-(ns rally.core
-  (:require [rally.config.runconfig :as config])
-  (:require [rally.tcpclient.sockettoinstance :as socket])
+(ns darwinsport.core
+  (:require [darwinsport.config.runconfig :as config])
+  (:require [darwinsport.tcpclient.sockettoinstance :as socket])
   (:gen-class))
 
 (defn -main

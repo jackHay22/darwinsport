@@ -1,5 +1,5 @@
-(ns rally.config.runconfig
-  (:require [rally.monitoring.sumologic :as logger])
+(ns darwinsport.config.runconfig
+  (:require [darwinsport.monitoring.sumologic :as logger])
   (:gen-class))
 
 (def framework
