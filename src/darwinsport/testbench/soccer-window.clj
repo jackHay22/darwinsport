@@ -11,7 +11,7 @@
                    java.awt.event.KeyEvent/VK_SPACE :space})
 
 (defn start-window
-  "initialize the game window"
+  "initialize the field window"
   [width height]
   (let [canvas (sawcore/canvas
                   :id :canvas
@@ -23,7 +23,7 @@
                   :id :panel
                   :items [canvas])
         frame (sawcore/frame
-                  :title "Soyuz 2"
+                  :title "DarwinSport 2018"
                   :width width
                   :height height
                   :content panel

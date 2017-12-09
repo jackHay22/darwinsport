@@ -6,6 +6,7 @@
 (defn update-and-draw
   "update the graphical window"
   [gr]
+  
   )
 
 (defn keypressed

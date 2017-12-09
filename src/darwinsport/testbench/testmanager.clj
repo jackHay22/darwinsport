@@ -1,5 +1,6 @@
 (ns darwinsport.testbench.testmanager
-  (:gen-class))
+  (:gen-class)
+  (:require [darwinsport.test-bench.soccer-window :as window]))
 
 (defn send-to-test
   "take complete individual map from socket, run across all tests"
@@ -7,6 +8,7 @@
   (fn [individual]
       (let [codestack (:movestack individual)
             all-tests (:test-list (:tests config))]
+            (if (:graphical? config) (window/start-window))
             ;send sumolog on failure
             ;send config to testing
             ;return individual to be shipped by socket
