@@ -11,7 +11,9 @@
     (javax.imageio.ImageIO/read
     (clojure.java.io/resource location)))
 
-(def player-images (map load-image
+(def player-images
+  ;image locations for various players
+  (map load-image
     '("images/team1player1.png"
       "images/team1player2.png"
       "images/team1player3.png"
@@ -34,12 +36,15 @@
      :defined-decisions '(...)}"
     [player]
     (let [current-x (first (:location player))
-          current-y (second (:location player))]
+          current-y (second (:location player))
+          current-angle (:facing-angle player)]
     ;interpret decision code and perform action
     ;speed is 0.5
     ;NOTE: if opponent is within a radius of the player, probabalistically tackle
-    (assoc player :location (list (+ current-x 0.5) current-y)))
-)
+    (assoc
+    (assoc player :location (list (+ current-x 0.5) current-y))
+    :facing-angle (+ current-angle 1))
+    ))
 
 (defn rotate-player-image
   [image ])
@@ -49,8 +54,8 @@
     [gr p]
     (let [assigned-image (nth player-images (:assigned-image p))
           radians (Math/toRadians (:facing-angle p))
-          center-x (/ 29 2)
-          center-y (/ 21 2)
+          center-x (/ (.getWidth assigned-image) 2)
+          center-y (/ (.getHeight assigned-image) 2)
           tx (AffineTransform/getRotateInstance radians center-x center-y)
           op (AffineTransformOp. tx AffineTransformOp/TYPE_BILINEAR)]
           (sawgr/draw gr

@@ -5,8 +5,6 @@
 
 (def game-state (atom
   {:ball-location '(x y)
-   :team-one-locations '((x y))
-   :team-two-locations '((x y))
    :score-1 0
    :score-2 0
   }))
@@ -16,16 +14,20 @@
 (def text-color (Color. 27 72 105))
 (def score-font (Font. "SansSerif" Font/PLAIN 20))
 
-;Define ball location, non-team-specific game attributes
-(def field-image
-    (sawicon/icon
-      (javax.imageio.ImageIO/read
-        (clojure.java.io/resource "images/fieldv1.png"))))
-
-(def ball-image
+(defn load-image
+  "load an image from resources"
+  [loc]
   (sawicon/icon
     (javax.imageio.ImageIO/read
-      (clojure.java.io/resource "images/ball.png"))))
+      (clojure.java.io/resource loc))))
+
+;Define ball location, non-team-specific game attributes
+(def field-image (load-image "images/fieldv1.png"))
+(def ball-image (load-image "images/ball.png"))
+;TODO: confirm
+(def upper-left-corner '(10 10))
+(def playable-width 1000)
+(def playable-height 600)
 
 (defn draw-score
   [gr]
@@ -34,6 +36,11 @@
           (.setColor gr text-color)
           (.setFont gr score-font)
           (.drawString gr score 485 20)))
+
+(def move-possible?
+  ;take object x and y and determine if move allowed
+  [x y]
+  )
 
 (defn draw-ball
   "take graphics object, draw game ball"
