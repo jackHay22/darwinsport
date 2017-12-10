@@ -24,14 +24,16 @@
 - Testing is not parallel within a node
 
 ## Player Attributes
-``` { :location (55 55)                         ;current location of player
+```
+    { :location (55 55)                         ;current location of player
       :facing-angle 45                          ;angle the player is currently facing
       :assigned-image 0                         ;Index of image to use in graphic mode: 0-3 for team 1, 4-7 for team 2
       :team-locations (() ())                   ;locations of all other players on this player's team
       :opponent-locations (() ())               ;locations of all players on the opposing side
       :ball-location (10 10)                    ;location of the ball
       :possessing-ball? false                   ;indication of whether the player is possessing the ball
-      :defined-decisions () }                   ;decision code (see below) that the player is capable of ```
+      :defined-decisions () }                   ;decision code (see below) that the player is capable of
+```
 
 ## Decision Code      
 TODO: reasoning that the player is capable of: this is what is developed genetically and sent to the compute node     
