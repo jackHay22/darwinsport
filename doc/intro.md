@@ -30,7 +30,7 @@
       :assigned-image 0                         ;Index of image to use in graphic mode: 0-3 for team 1, 4-7 for team 2
       :team-locations (() ())                   ;locations of all other players on this player's team
       :opponent-locations (() ())               ;locations of all players on the opposing side
-      :ball-location (10 10)                    ;location of the ball
+      :team 1 or 2                              ;location of the ball
       :possessing-ball? false                   ;indication of whether the player is possessing the ball
       :defined-decisions () }                   ;decision code (see below) that the player is capable of
 ```
@@ -41,4 +41,4 @@ TODO: reasoning that the player is capable of: this is what is developed genetic
 ## Config
 - Image currently setup for raspberry pi java (for cluster)
 - TCP port 5555 used to communicate across local swarm network
-- Graphical mode should not be enabled in swarm mode as it slows computation to real time and introduces inefficiency.
+- Graphical mode should not be enabled in swarm mode as it slows computation to real time and introduces inefficiencies.

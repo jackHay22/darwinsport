@@ -1,7 +1,8 @@
 (ns darwinsport.testbench.socceragent
   (:gen-class)
   (:require [seesaw.graphics :as sawgr]
-            [seesaw.icon :as sawicon]))
+            [seesaw.icon :as sawicon]
+            [darwinsport.testbench.soccerfield :as field]))
 
 (import 'java.awt.geom.AffineTransform)
 (import 'java.awt.image.AffineTransformOp)
@@ -25,21 +26,21 @@
 
 (defn update-player
     "Take in player and make decisions
-    {:location (x y)
+     :location (x y)
      :facing-angle
      :assigned-image #
      :team 1 or 2
      :team-locations ((x1 y1) (x2 y2))
      :opponent-locations (() ())
-     :ball-location (x y)
      :possessing-ball? bool
-     :defined-decisions '(...)}"
+     :defined-decisions (...)"
     [player]
     (let [current-x (first (:location player))
           current-y (second (:location player))
-          current-angle (:facing-angle player)]
+          current-angle (:facing-angle player)
+          ball-location (field/get-ball-location)]
+    ;check if move possible
     ;interpret decision code and perform action
-    ;speed is 0.5
     ;NOTE: if opponent is within a radius of the player, probabalistically tackle
     (assoc
     (assoc player :location (list (+ current-x 0.5) current-y))

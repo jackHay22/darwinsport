@@ -29,6 +29,8 @@
 (def playable-width 1000)
 (def playable-height 600)
 
+(def grass-friction 0.5) ;effects ball speed after each frame (by multiplication)
+
 (defn draw-score
   [gr]
     (let [state (deref game-state)
@@ -42,12 +44,19 @@
   [x y]
   )
 
+(defn update-ball
+  "update the ball location after some move event"
+  [force angle]
+  )
+
 (defn draw-ball
   "take graphics object, draw game ball"
   [gr]
   (sawgr/draw gr
       (sawgr/image-shape 50 50 ball-image)
           (sawgr/style)))
+
+(def get-ball-location (fn [] (:ball-location (deref game-state))))
 
 (defn draw-field
   "take graphics object, draw field"
