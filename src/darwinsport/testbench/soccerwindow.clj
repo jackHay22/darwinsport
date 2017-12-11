@@ -37,9 +37,9 @@
                             (fn [e] e)]
                   :on-close :exit)
         ;delay 20 is around 50 fps
-        game-loop (sawcore/timer (fn [e] (sawcore/repaint! frame)) :delay 20 :start? false)]
+        main-loop (sawcore/timer (fn [e] (sawcore/repaint! frame)) :delay 20 :start? false)]
 
     ;run window loop
     (sawcore/native!)
     (sawcore/show! frame)
-    (.start game-loop)))
+    (.start main-loop)))

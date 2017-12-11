@@ -9,7 +9,8 @@
     -socket server listens for individuals
     -performs async test on individual and returns
   "
-  [instance]
+  [instance mode]
+  (if (= mode "demo") (println "demo"))
   (window/start-window 1042 640))
   ;add current instance id to config
 
