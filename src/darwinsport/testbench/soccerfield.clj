@@ -39,9 +39,10 @@
           (.setFont gr score-font)
           (.drawString gr score 485 20)))
 
-(def move-possible?
+(defn move-possible?
   ;take object x and y and determine if move allowed
   [x y]
+  :STUB
   )
 
 (defn update-ball
