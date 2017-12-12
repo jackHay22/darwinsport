@@ -6,4 +6,4 @@
  :possessing-ball? false
  :open? true
  :assigned-image "images/team1player1.png"
- :defined-decisions "testfiles/decisionpresets/ritchie.txt"}
+ :defined-decisions ritchie1}

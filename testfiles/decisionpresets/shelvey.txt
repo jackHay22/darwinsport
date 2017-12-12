@@ -1,6 +1,0 @@
-(
-  ((ball-posessed? and team-mate-open?)
-    (pass-forward-to-open)
-  )
-
-)

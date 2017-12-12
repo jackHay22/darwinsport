@@ -33,6 +33,6 @@
   (let [decisions (:defined-decisions player)
         directives (:directives player)]
 
-        ;use ((ns-resolve darwinsport.testbench.soccerinstrs arg) player)
+        ;use ((ns-resolve darwinsport.testbench.soccerinstrs decisions) player)
 
   player))

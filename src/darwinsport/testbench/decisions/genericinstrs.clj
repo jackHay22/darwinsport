@@ -1,5 +1,14 @@
-(ns darwinsport.testbench.soccerinstrs
+(ns darwinsport.testbench.decisions.genericinstrs
   (:gen-class))
+
+(defn in-distance?
+  "check if player in radius"
+  [pt dist]
+  (fn [xy]
+    (let [x1 (first pt) y1 (second pt)
+          x2 (first xy) y2 (second xy)
+          xdif (- x2 x1) ydif (- y2 y1)]
+    (> dist (Math/sqrt (+ (* xdif xdif) (* ydif ydif)))))))
 
 ;Name space of functions that are allowed to be invoked at runtime by the DSL
 (defn self-ball-posessed?
@@ -7,6 +16,17 @@
   RETURNS: true if self posessing ball"
   [player]
   (:possessing-ball? player))
+
+(defn self-space?
+  "check if opposing team players are within radius of player
+  RETURNS true if space, false if covered"
+  [player dist]
+  (let [team (:opponent player)
+        distfn (indistance? (:location player) dist)]
+    (reduce
+      (fn [b p] (if (distfn (:location p)) (reduced true) b))
+      false
+      team)))
 
 (defn team-mate-open?
   "check if any players on team are open to receive ball
