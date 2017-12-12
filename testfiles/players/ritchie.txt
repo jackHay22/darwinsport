@@ -1,0 +1,9 @@
+{:location (55 55)
+ :facing-angle 45
+ :team ()
+ :opponent ()
+ :ball-location (10 10)
+ :possessing-ball? false
+ :open? true
+ :assigned-image "images/team1player1.png"
+ :defined-decisions "testfiles/decisionpresets/ritchie.txt"}

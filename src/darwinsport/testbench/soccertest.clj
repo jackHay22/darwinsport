@@ -1,27 +1,24 @@
 (ns darwinsport.testbench.soccertest
   (:gen-class)
   (:require [darwinsport.testbench.soccerfield :as field]
+            [darwinsport.testbench.soccerutils :as utilities]
             [darwinsport.testbench.socceragent :as players]
             [darwinsport.config.runconfig :as config]))
 
 (def window? (atom false))
 (def paused? (atom false))
-(def players-state (atom '(
-        {:location (55 55)
-         :facing-angle 45
-         :assigned-image 0   ;0-3 team1, 4-7 team2
-         :team-locations ()
-         :opponent-locations (() ())
-         :ball-location (10 10)
-         :possessing-ball? false
-         :defined-decisions ()})))
+(def players-state (atom
+      (list
+        (utilities/load-player "testfiles/players/ritchie.txt" 1 0)
+        (utilities/load-player "testfiles/players/shelvey.txt" 1 1))))
 
 (defn update-and-draw
   "update the graphical window"
   [gr]
     (let [pstate (deref players-state)
           update? (not (deref paused?))
-          updated-players (if update? (players/update-and-decide pstate) pstate)]
+          updated-players (if update?
+                    (players/update-and-decide pstate (field/ball-location)) pstate)]
       (field/draw-field gr)
       (field/draw-ball gr)
       (field/draw-score gr)

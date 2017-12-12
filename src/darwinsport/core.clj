@@ -11,7 +11,8 @@
   "
   [instance mode]
   (if (= mode "demo") (println "demo"))
-  (window/start-window 1042 640))
+  (window/start-window 1042 640)
+  )
   ;add current instance id to config
 
   ;(socket/start-server

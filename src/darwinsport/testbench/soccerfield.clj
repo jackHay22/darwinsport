@@ -50,6 +50,11 @@
   [force angle]
   )
 
+(defn ball-location
+  "get ball location for updating players"
+  []
+  (:ball-location (deref game-state)))
+
 (defn draw-ball
   "take graphics object, draw game ball"
   [gr]
