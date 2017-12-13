@@ -80,7 +80,9 @@
     :else false)))
 
 (defn perform-action
-  "UTILITY: perform the action(s) described"
+  "UTILITY: perform the action(s) described
+  RETURN: each actoin should return the player
+  and produce any ball manipulation side effects"
   [action player]
   (cond
     (= action "action-longest-pass-forward") false
@@ -93,8 +95,7 @@
     (= action "action-tackle") false
     (= action "action-follow-ball") false
     (= action "action-defensive-drop") false
-    :else "done")
-    ;TODO: return and transform player
+    :else player)
   )
 
 (defn player-decide

@@ -2,6 +2,7 @@
   (:gen-class)
   (:require [seesaw.graphics :as sawgr]
             [seesaw.icon :as sawicon]
+            [darwinsport.testbench.soccerfield :as field]
             [darwinsport.testbench.soccerutils :as interp]))
 
 (import 'java.awt.geom.AffineTransform)
@@ -13,8 +14,10 @@
     ;check if move possible
     ;interpret decision code and perform action
     ;NOTE: if opponent is within a radius of the player, probabalistically tackle
-    player
-    )
+    (let [new-x (+ (rand) (first (:location player)))
+          new-y (+ (rand) (second (:location player)))]
+    (assoc player :location  (list new-x new-y))
+    ))
 
 (defn draw-player
     "take graphics object, draw player based on current state (if graphics enabled)"

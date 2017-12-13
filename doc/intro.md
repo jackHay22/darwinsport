@@ -39,10 +39,13 @@
 ## Decision Code      
 Syntax example:
 ```
-and self-ball-posessed? self-space? : self-dribble give-directive
+and self-ball-posessed? self-space? : self-dribble
 and self-ball-posessed? !self-space? team-mate-open? : action-short-pass-forward
 or self-defensive-third? !self-space? : action-clear
 ```
+- IMPORTANT NOTE: later actions have the potential to overwrite actions at the beginning!
+  - i.e. if an instruction causes the player to move in one direction, a future action in a different direction will overwrite that state
+  - Therefore, actions should be designed to be clear cut and care should be exercised when writing actions that could potentially conflict
 - All predicates can be inverted by adding ``` ! ``` on the front.
 - All predicate decision pairs are structured ``` and|or p p ... p : a a ... a ```
 - The following are valid predicates:
@@ -59,7 +62,7 @@ or self-defensive-third? !self-space? : action-clear
 - The following are valid actions:
   - ``` action-longest-pass-forward ```
   - ``` action-self-dribble-forward ```
-  - ``` directive-shoot ```
+  - ``` directive-shoot ```  Not sure if directives will be used
   - ``` directive-self-pass ```
   - ``` directive- ```
   - ``` action-short-pass-forward ```

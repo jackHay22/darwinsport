@@ -5,5 +5,5 @@
  :ball-location (10 10)
  :possessing-ball? false
  :open? true
- :assigned-image "images/team1player1.png"
+ :assigned-image "images/players/team1player1.png"
  :defined-decisions "testfiles/players/offensive_decisions.txt"}
