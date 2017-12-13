@@ -27,16 +27,44 @@
 ```
     { :location (55 55)                         ;current location of player
       :facing-angle 45                          ;angle the player is currently facing
-      :assigned-image 0                         ;Index of image to use in graphic mode: 0-3 for team 1, 4-7 for team 2
-      :team-locations (() ())                   ;locations of all other players on this player's team
-      :opponent-locations (() ())               ;locations of all players on the opposing side
-      :team 1 or 2                              ;location of the ball
+      :assigned-image "file"                    ;file of image to use in graphic mode
+      :team ()                                  ;all other players on this player's team
+      :opponent ()                              ;all players on the opposing side
+      :ball-location (() ())                    ;location of the ball
       :possessing-ball? false                   ;indication of whether the player is possessing the ball
+      :open? true                               :whether or not player is describing himself as open
       :defined-decisions () }                   ;decision code (see below) that the player is capable of
 ```
 
 ## Decision Code      
-TODO: reasoning that the player is capable of: this is what is developed genetically and sent to the compute node     
+Syntax example:
+```
+and self-ball-posessed? self-space? : self-dribble give-directive
+and self-ball-posessed? !self-space? team-mate-open? : action-short-pass-forward
+or self-in-defensive-third? !self-space? : action-clear
+```
+- All predicates can be inverted by adding ``` ! ``` on the front.
+- All predicate decision pairs are structured ``` and|or p p ... p : a a ... a ```
+- The following are valid predicates:
+  - ``` self-ball-posessed? ```
+  - ``` self-space? ```
+  - ``` team-mate-open? ```
+  - ``` self-defensive-third? ```
+  - ``` self-offensive-third? ```
+  - ``` team-possessing-ball? ```
+  - ``` opponent-possessing-ball? ```
+    - (And inverses)
+- The following are valid actions:
+  - ``` action-longest-pass-forward ```
+  - ``` action-self-dribble-forward ```
+  - ``` directive-shoot ```
+  - ``` directive-self-pass ```
+  - ``` directive- ```
+  - ``` action-short-pass-forward ```
+  - ``` action-clear ```
+  - ``` action-shoot ```
+  - ``` action-tackle ```
+  - ``` action-follow-ball ```
 
 ## Config
 - Image currently setup for raspberry pi java (for cluster)

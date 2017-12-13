@@ -19,20 +19,11 @@
      :possessing-ball? bool
      :defined-decisions (...)"
     [player]
-    (let [current-x (first (:location player))
-          current-y (second (:location player))
-          current-angle (:facing-angle player)
-    ;      ball-location (field/get-ball-location)
-    ]
     ;check if move possible
     ;interpret decision code and perform action
     ;NOTE: if opponent is within a radius of the player, probabalistically tackle
-      (assoc
-          (assoc player :location (list (+ current-x 0.5) current-y))
-        :facing-angle (+ current-angle 1))
+    )
 
-      ))
-;)
 
 (defn draw-player
     "take graphics object, draw player based on current state (if graphics enabled)"
