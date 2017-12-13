@@ -18,7 +18,9 @@
     (let [pstate (deref players-state)
           update? (not (deref paused?))
           updated-players (if update?
-                    (players/update-and-decide pstate (field/ball-location)) pstate)]
+                    (players/update-and-decide pstate (field/ball-location)) pstate)
+          updated-ball (if update?
+                    (field/update-ball))]
       (field/draw-field gr)
       (field/draw-ball gr)
       (field/draw-score gr)

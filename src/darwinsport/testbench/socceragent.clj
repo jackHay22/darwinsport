@@ -2,28 +2,19 @@
   (:gen-class)
   (:require [seesaw.graphics :as sawgr]
             [seesaw.icon :as sawicon]
-            [darwinsport.testbench.soccerfield :as field]
             [darwinsport.testbench.soccerutils :as interp]))
 
 (import 'java.awt.geom.AffineTransform)
 (import 'java.awt.image.AffineTransformOp)
 
 (defn update-player
-    "Take in player and make decisions
-     :location (x y)
-     :facing-angle
-     :assigned-image #
-     :team 1 or 2
-     :team-locations ((x1 y1) (x2 y2))
-     :opponent-locations (() ())
-     :possessing-ball? bool
-     :defined-decisions (...)"
+    "Take in player and make decisions with interpreter"
     [player]
     ;check if move possible
     ;interpret decision code and perform action
     ;NOTE: if opponent is within a radius of the player, probabalistically tackle
+    player
     )
-
 
 (defn draw-player
     "take graphics object, draw player based on current state (if graphics enabled)"

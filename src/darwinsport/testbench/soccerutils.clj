@@ -38,8 +38,22 @@
     (let [x1 (first xy1) y1 (second xy1)
           x2 (first xy2) y2 (second xy2)
           xdif (- x2 x1) ydif (- y2 y1)]
-    (> dist (Math/sqrt (+ (* xdif xdif) (* ydif ydif))))))
+    (Math/sqrt (+ (* xdif xdif) (* ydif ydif)))))
 
+(defn angle-to-target
+    "finds the angle between the vehicle location and the target"
+    [xy1 xy2]
+    (let [dx (- (first xy2) (first xy1))
+          dy (- (second xy2) (second xy1))]
+    (Math/toDegrees (Math/atan (/ dx dy)))))
+
+(defn kick-ball
+  "kick the game ball if close enough"
+  [player target type]
+  (let [player-ball-distance (distance (fieldstate/ball-location) (:location player))
+        calculate-angle (angle-to-target (:location player) target)
+        calculate-velocity (distance (:location player) target)]
+    (fieldstate/set-ball-move calculate-velocity calculate-angle)))
 
 (defn check-predicate
   "UTILITY: take a predicate with one or more arguments and evaluate"
@@ -67,18 +81,18 @@
 
 (defn perform-action
   "UTILITY: perform the action(s) described"
-  [action-seq player]
+  [action player]
   (cond
-    (= action "action-longest-pass-forward")
-    (= action "action-self-dribble-forward")
-    (= action "directive-shoot")
-    (= action "directive-self-pass")
-    (= action "action-short-pass-forward")
-    (= action "action-clear")
-    (= action "action-shoot")
-    (= action "action-tackle")
-    (= action "action-follow-ball")
-    (= action "action-defensive-drop")
+    (= action "action-longest-pass-forward") false
+    (= action "action-self-dribble-forward") false
+    (= action "directive-shoot") false
+    (= action "directive-self-pass") false
+    (= action "action-short-pass-forward") false
+    (= action "action-clear") false
+    (= action "action-shoot") false
+    (= action "action-tackle") false
+    (= action "action-follow-ball") false
+    (= action "action-defensive-drop") false
     :else "done")
     ;TODO: return and transform player
   )

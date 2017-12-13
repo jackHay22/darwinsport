@@ -5,6 +5,8 @@
 
 (def game-state (atom
   {:ball-location '(x y)
+   :ball-dx 0
+   :ball-dy 0
    :score-1 0
    :score-2 0
   }))
@@ -22,14 +24,14 @@
       (clojure.java.io/resource loc))))
 
 ;Define ball location, non-team-specific game attributes
-(def field-image (load-image "images/fieldv1.png"))
+(def field-image (load-image "images/field_night.png")) ;fieldv1
 (def ball-image (load-image "images/ball.png"))
 ;TODO: confirm
 (def upper-left-corner '(10 10))
 (def playable-width 1000)
 (def playable-height 600)
 
-(def grass-friction 0.5) ;effects ball speed after each frame (by multiplication)
+(def grass-friction 0.95) ;effects ball speed after each frame (by multiplication)
 
 (defn draw-score
   [gr]
@@ -46,9 +48,30 @@
   )
 
 (defn update-ball
-  "update the ball location after some move event"
+  "update the ball location at each frame"
+  []
+  (let [state (deref game-state)
+        loc (:ball-location state)
+        dx (:ball-dx state)
+        dy (:ball-dx state)
+        updated (list (+ (first loc) dx) (+ (second loc) dy))
+        friction-dx (* dx grass-friction)
+        friction-dy (* dy grass-friction)]
+        ;TODO: check field bounds
+        ;TODO: check if ball is in either goal, update score and reset accordingly
+    (do
+      (swap! game-state assoc :ball-location updated)
+      (swap! game-state assoc :ball-dx friction-dx)
+      (swap! game-state assoc :ball-dy friction-dy))))
+
+(defn set-ball-move
+  "set the ball movement attributes (dx dy)"
   [force angle]
-  )
+  (let [dx ;TODO: calculate dx dy
+        dy]
+      (do
+        (swap! game-state assoc :ball-dx dx)
+        (swap! game-state assoc :ball-dy dy))))
 
 (defn ball-location
   "get ball location for updating players"
@@ -58,9 +81,10 @@
 (defn draw-ball
   "take graphics object, draw game ball"
   [gr]
+  (let [location (:ball-location (deref game-state))]
   (sawgr/draw gr
-      (sawgr/image-shape 50 50 ball-image)
-          (sawgr/style)))
+      (sawgr/image-shape (first location) (second location) ball-image)
+          (sawgr/style))))
 
 (def get-ball-location (fn [] (:ball-location (deref game-state))))
 
