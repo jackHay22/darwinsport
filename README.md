@@ -5,6 +5,8 @@ Distributed platform for harnessing genetic programming to evolve simulated 2D s
 - This program has two primary uses:
   - (Realtime) Graphical display of human developed or gp developed soccer teams
   - Distributed testing cluster node for genetically evolving players
+  - Run ``` lein run <mode> ``` where mode is instance number or ``` -demo ```
+  - Standalone jar: ``` java -jar darwinsport-0.1.0-SNAPSHOT-standalone.jar <mode> ```
 
 ## Notes
 - This program is meant as a soccer development testing node for Darwin, the work of Jack Hay and Nate Symer.

@@ -5,15 +5,13 @@
 
 (def game-state (atom
   {:ball-location '(500 300)
-   :ball-dx 15
+   :ball-dx 10
    :ball-dy 0
    :score-1 0
-   :score-2 0
-  }))
+   :score-2 0}))
 
 (import '(java.awt Color Font))
-
-(def text-color (Color. 27 72 105))
+(def text-color (Color. 191 53 47))
 (def score-font (Font. "SansSerif" Font/PLAIN 20))
 
 (defn load-image
@@ -23,11 +21,12 @@
     (javax.imageio.ImageIO/read
       (clojure.java.io/resource loc))))
 
-;Define ball location, non-team-specific game attributes
-(def field-image (load-image "images/fieldv2.png")) ;fieldv1
+;FIELD IMAGE LOCATIONS
+(def field-image (load-image "images/fieldv3.png")) ;fieldv1
 (def ball-image (load-image "images/ball.png"))
 (def lighting (load-image "images/lightEffects.png"))
-;TODO: confirm
+
+;FIELD ATTRIBUTES
 (def upper-left-corner '(18 22))
 (def lower-right-corner '(980 580))
 (def goal-y-1 239)
@@ -36,21 +35,22 @@
 (def grass-friction 0.98) ;effects ball speed after each frame (by multiplication)
 
 (defn draw-test-pt
-  "draw a pt"
+  "draw a pt for testing purposes"
   [gr x y]
     (.setColor gr text-color)
     (.fillRect gr x y 10 10))
 
 (defn draw-score
+  "display the game score at the top of the screen"
   [gr]
     (let [state (deref game-state)
           score (str (:score-1 state) " --- " (:score-2 state))]
           (.setColor gr text-color)
           (.setFont gr score-font)
-          (.drawString gr score 470 20)))
+          (.drawString gr score 465 22)))
 
 (defn move-possible?
-  ;take object x and y and determine if move allowed
+  "determine if a move to a coordinate in the game space is allowed"
   [x y]
   (let [upper-left-x (first upper-left-corner)
         upper-left-y (second upper-left-corner)
@@ -85,13 +85,14 @@
         in-goal? (in-goal? x-transform y-transform)
         move-possible? (move-possible? x-transform y-transform)
         updated (cond
-                   in-goal? '(498 300)
-                   move-possible? (list x-transform y-transform)
+                  in-goal? '(498 300)
+                  move-possible? (list x-transform y-transform)
                   :else loc)
-        delta-check (cond move-possible? 1
-                          in-goal? 0
-                          :else -0.2)]
-        ;TODO: check if ball is in either goal, update score and reset accordingly
+        delta-check (cond
+                  move-possible? 1
+                  in-goal? 0
+                  :else -0.2)]
+        ;delta-check transforms dx and dy based on location
     (do
       (swap! game-state assoc :ball-location updated)
       (swap! game-state assoc :ball-dx (* dx delta-check))
@@ -106,10 +107,7 @@
         (swap! game-state assoc :ball-dx dx)
         (swap! game-state assoc :ball-dy dy))))
 
-(defn ball-location
-  "get ball location for updating players"
-  []
-  (:ball-location (deref game-state)))
+(def ball-location (fn [] (:ball-location (deref game-state))))
 
 (defn draw-ball
   "take graphics object, draw game ball"
@@ -119,8 +117,6 @@
       (sawgr/image-shape (first location) (second location) ball-image)
           (sawgr/style))))
 
-(def get-ball-location (fn [] (:ball-location (deref game-state))))
-
 (defn draw-layer
   "take graphics object, draw field"
   [gr image]
@@ -128,6 +124,7 @@
       (sawgr/image-shape 0 0 image)
           (sawgr/style)))
 
+;Load wrappers for images
 (def draw-field
   (fn [gr] (draw-layer gr field-image)))
 

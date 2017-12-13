@@ -10,7 +10,7 @@
     -performs async test on individual and returns
   "
   [instance mode]
-  (if (= mode "demo") (println "demo"))
+  (if (= mode "-demo") (println "Running graphical mode..."))
   (window/start-window 1000 620)
   )
   ;add current instance id to config

@@ -23,10 +23,6 @@
                     (field/update-ball))]
       (field/draw-field gr)
       (field/draw-ball gr)
-      (field/draw-test-pt gr 980 239)
-      (field/draw-test-pt gr 980 356)
-      (field/draw-test-pt gr 18 239)
-      (field/draw-test-pt gr 18 356)
       (field/draw-score gr)
       (reset! players-state updated-players)
       (players/draw-players gr updated-players)
@@ -45,5 +41,4 @@
   ;update player characteristics based on end of key press
   (if (= key :p)
     (let [p (deref paused?)]
-      (reset! paused? (not p))))
-  )
+      (reset! paused? (not p)))))

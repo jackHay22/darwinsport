@@ -11,12 +11,13 @@
 (defn update-player
     "Take in player and make decisions with interpreter"
     [player]
-    ;check if move possible
-    ;interpret decision code and perform action
     ;NOTE: if opponent is within a radius of the player, probabalistically tackle
-    (let [new-x (+ (rand) (first (:location player)))
-          new-y (+ (rand) (second (:location player)))]
-    (assoc player :location  (list new-x new-y))
+    (let [new-x (+ 0.1 (first (:location player)))
+          new-y (+ (rand) (second (:location player)))
+          inbounds? (field/move-possible? new-x new-y)
+          new-loc (cond inbounds? (list new-x new-y)
+                        :else (:location player))]
+    (assoc player :location  new-loc)
     ))
 
 (defn draw-player
