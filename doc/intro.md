@@ -41,7 +41,7 @@ Syntax example:
 ```
 and self-ball-posessed? self-space? : self-dribble give-directive
 and self-ball-posessed? !self-space? team-mate-open? : action-short-pass-forward
-or self-in-defensive-third? !self-space? : action-clear
+or self-defensive-third? !self-space? : action-clear
 ```
 - All predicates can be inverted by adding ``` ! ``` on the front.
 - All predicate decision pairs are structured ``` and|or p p ... p : a a ... a ```
@@ -53,6 +53,8 @@ or self-in-defensive-third? !self-space? : action-clear
   - ``` self-offensive-third? ```
   - ``` team-possessing-ball? ```
   - ``` opponent-possessing-ball? ```
+  - ``` tackle-range? ```
+  - ``` close-to-goal? ```
     - (And inverses)
 - The following are valid actions:
   - ``` action-longest-pass-forward ```
@@ -65,6 +67,7 @@ or self-in-defensive-third? !self-space? : action-clear
   - ``` action-shoot ```
   - ``` action-tackle ```
   - ``` action-follow-ball ```
+  - ``` action-defensive-drop ```
 
 ## Config
 - Image currently setup for raspberry pi java (for cluster)

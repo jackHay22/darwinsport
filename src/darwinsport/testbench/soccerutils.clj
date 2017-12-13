@@ -57,6 +57,8 @@
     (= pred "team-mate-open?") (not (empty? (filter (fn [p] (:open? p)) team)))
     (= pred "self-defensive-third?") false ;TODO
     (= pred "self-offensive-third?") false ;TODO
+    (= pred "close-to-goal?") false ;TODO
+    (= pred "tackle-range?") false ;TODO
     (= pred "team-possessing-ball?") (not (empty? (filter (fn [p] (:possessing-ball? p)) team)))
     (= pred "opponent-possessing-ball?") (not (empty? (filter (fn [p] (:possessing-ball? p)) opponent)))
     (= pred "true") true
@@ -67,25 +69,28 @@
   "UTILITY: perform the action(s) described"
   [action-seq player]
   (cond
-    (= (first action-seq) "action-longest-pass-forward")
-    (= (first action-seq) "action-self-dribble-forward")
-    (= (first action-seq) "directive-shoot")
-    (= (first action-seq) "directive-self-pass")
-    (= (first action-seq) "action-short-pass-forward")
-    (= (first action-seq) "action-clear")
-    (= (first action-seq) "action-shoot")
-    (= (first action-seq) "action-tackle")
-    (= (first action-seq) "action-follow-ball")
-    :else "done"))
+    (= action "action-longest-pass-forward")
+    (= action "action-self-dribble-forward")
+    (= action "directive-shoot")
+    (= action "directive-self-pass")
+    (= action "action-short-pass-forward")
+    (= action "action-clear")
+    (= action "action-shoot")
+    (= action "action-tackle")
+    (= action "action-follow-ball")
+    (= action "action-defensive-drop")
+    :else "done")
+    ;TODO: return and transform player
+  )
 
 (defn player-decide
   "given a player and the players decision code, make a game play decision"
   [player]
   (let [decisions (:defined-decisions player)
-        directives (:directives player)
-        decisions (filter (fn [pa] (check-predicate (first a))) decisions)
-        actions-to-perform (map second decisions)]
-
-
-        ;TODO: make sure changes made to player are returned
-  player))
+        directives (:directives player)]
+          (reduce
+            (fn [p b]
+              (if
+                (check-predicate (first b) p)
+                (perform-action (second b) p) p))
+           player decisions)))

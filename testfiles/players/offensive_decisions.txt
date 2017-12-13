@@ -1,0 +1,5 @@
+and self-ball-posessed? self-space? close-to-goal? : action-shoot
+and self-ball-posessed? !self-space? team-mate-open? : action-pass-forward-to-open
+and opponent-possessing-ball? self-offensive-third? tackle-range? : action-tackle
+and opponent-possessing-ball? self-defensive-third? : action-defensive-drop
+or self-defensive-third? !self-space? : action-clear-towards-goal
