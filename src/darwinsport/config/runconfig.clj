@@ -1,5 +1,6 @@
 (ns darwinsport.config.runconfig
-  (:require [darwinsport.monitoring.sumologic :as logger])
+  (:require [darwinsport.monitoring.sumologic :as logger]
+            [darwinsport.testbench.statedriver.soccerutils :as utilities])
   (:gen-class))
 
 (def framework
@@ -25,3 +26,15 @@
    :window-y 620
    :send-log #(logger/endpoint "https://endpoint2.collection.us2.sumologic.com/receiver/v1/http/ZaVnC4dhaV02hejcH69FH9sJ1hcLNfRdkmyphHE6krl3Oa0SEO07-rOvlDANYAlsn_Dr6boOHweSrdyEQCJT40R0VisjC8vpIBJhVlWhWeSu4MSGEhTOtg==" %)
 })
+
+(def load-with-framework (fn [file team id]
+    (utilities/load-player file team id framework)))
+
+(def teams {:teams
+      (list
+         (load-with-framework "testfiles/players/shelvey.txt" 1 1)
+         (load-with-framework "testfiles/players/reis.txt" 1 2)
+         (load-with-framework "testfiles/players/ritchie.txt" 1 0)
+         (load-with-framework "testfiles/players/yedlin.txt" 0 0)
+         (load-with-framework "testfiles/players/howard.txt" 0 1)
+      )})
