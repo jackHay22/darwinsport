@@ -1,5 +1,5 @@
 {:location (20 270)
- :facing-angle -90
+ :facing-angle 0
  :team ()
  :opponent ()
  :ball-location (10 10)

@@ -14,7 +14,10 @@
       (list
         (utilities/load-player "testfiles/players/ritchie.txt" 1 0)
         (utilities/load-player "testfiles/players/shelvey.txt" 1 1)
-        (utilities/load-player "testfiles/players/reis.txt" 1 2))))
+        (utilities/load-player "testfiles/players/reis.txt" 1 2)
+
+        (utilities/load-player "testfiles/players/yedlin.txt" 0 0)
+        )))
 
 (defn update-and-draw
   "update the graphical window"

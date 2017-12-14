@@ -1,0 +1,1 @@
+and opponent-possessing-ball? : action-intersect-path-defend-ball

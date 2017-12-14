@@ -10,7 +10,15 @@
      :hard-bounds true}
    :soccer-attribs
     {:run-speed 1
-     :space? 10}
+     :walk-speed 0.2
+     :sprint-speed 1.2
+     :space? 30
+     :dribble-spacing 18
+     :shot-spacing 20
+     :dribble-force 1.5
+     :shot-range 250
+     :max-kick-force 10
+     :goal-locations '((18 297) (980 297))}
    :port 5555
    :graphical? false
    :window-x 1000
