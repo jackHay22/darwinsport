@@ -3,6 +3,9 @@
   (:require [seesaw.graphics :as sawgr]
             [seesaw.icon :as sawicon]))
 
+; -------------------------------
+; Field/ball, physical game state
+
 (def game-state (atom
   {:ball-location '(500 300)
    :ball-dx 10

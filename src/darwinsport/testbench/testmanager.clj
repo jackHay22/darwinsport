@@ -1,6 +1,6 @@
 (ns darwinsport.testbench.testmanager
   (:gen-class)
-  (:require [darwinsport.testbench.soccerwindow :as window]))
+  (:require [darwinsport.testbench.statedriver.soccerwindow :as window]))
 
 (defn send-to-test
   "take complete individual map from socket, run across all tests"
@@ -13,6 +13,6 @@
             ;send config to testing
             ;return individual to be shipped by socket
             ;(log/send-log-metadata "data=" codestack)
-            (Thread/sleep 10000)
+            (Thread/sleep 1000)
             ;(println "data received")
             (assoc individual :movestack 10))))

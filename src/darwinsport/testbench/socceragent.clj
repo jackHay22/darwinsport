@@ -3,10 +3,13 @@
   (:require [seesaw.graphics :as sawgr]
             [seesaw.icon :as sawicon]
             [darwinsport.testbench.soccerfield :as field]
-            [darwinsport.testbench.soccerutils :as interp]))
+            [darwinsport.testbench.soccerdecisions :as interp]))
 
 (import 'java.awt.geom.AffineTransform)
 (import 'java.awt.image.AffineTransformOp)
+
+; -----------------------------
+; Players, supporting functions
 
 (defn update-player
     "Take in player and make decisions with interpreter"

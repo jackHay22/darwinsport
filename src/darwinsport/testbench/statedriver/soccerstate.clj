@@ -1,16 +1,20 @@
-(ns darwinsport.testbench.soccertest
+(ns darwinsport.testbench.statedriver.soccerstate
   (:gen-class)
   (:require [darwinsport.testbench.soccerfield :as field]
-            [darwinsport.testbench.soccerutils :as utilities]
+            [darwinsport.testbench.statedriver.soccerutils :as utilities]
             [darwinsport.testbench.socceragent :as players]
             [darwinsport.config.runconfig :as config]))
+
+; ------------------------------
+; Game manager and update driver
 
 (def window? (atom false))
 (def paused? (atom false))
 (def players-state (atom
       (list
         (utilities/load-player "testfiles/players/ritchie.txt" 1 0)
-        (utilities/load-player "testfiles/players/shelvey.txt" 1 1))))
+        (utilities/load-player "testfiles/players/shelvey.txt" 1 1)
+        (utilities/load-player "testfiles/players/reis.txt" 1 2))))
 
 (defn update-and-draw
   "update the graphical window"

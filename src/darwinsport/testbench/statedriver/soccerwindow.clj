@@ -1,8 +1,8 @@
-(ns darwinsport.testbench.soccerwindow
+(ns darwinsport.testbench.statedriver.soccerwindow
   (:gen-class)
   (:require [seesaw.core :as sawcore]
             [seesaw.graphics :as sawgr]
-            [darwinsport.testbench.soccertest :as state]))
+            [darwinsport.testbench.statedriver.soccerstate :as state]))
 
 (def control-keys {java.awt.event.KeyEvent/VK_UP :up
                    java.awt.event.KeyEvent/VK_DOWN :down

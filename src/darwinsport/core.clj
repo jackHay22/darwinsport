@@ -1,7 +1,7 @@
 (ns darwinsport.core
   (:require [darwinsport.config.runconfig :as config])
   (:require [darwinsport.tcpclient.sockettoinstance :as socket])
-  (:require [darwinsport.testbench.soccerwindow :as window])
+  (:require [darwinsport.testbench.statedriver.soccerwindow :as window])
   (:gen-class))
 
 (defn -main
@@ -9,11 +9,16 @@
     -socket server listens for individuals
     -performs async test on individual and returns
   "
-  [instance mode]
-  (if (= mode "-demo") (println "Running graphical mode..."))
-  (window/start-window 1000 620)
-  )
-  ;add current instance id to config
-
-  ;(socket/start-server
-  ;  (assoc config/framework :send-log ((:send-log config/framework) instance))))
+  [instance]
+  (if (= instance "-demo")
+    (do
+        (println "Running graphical mode...")
+        (println "Port Server not started")
+        (println "External logging disabled")
+        (window/start-window 1000 620))
+    (do
+        (println "Running as configuration...")
+        (println "Starting port server on 5555...")
+        (println "External logging to sumologic enabled: \n")
+        (socket/start-server
+            (assoc config/framework :send-log ((:send-log config/framework) instance))))))
