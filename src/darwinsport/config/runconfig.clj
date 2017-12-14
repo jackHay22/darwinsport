@@ -8,6 +8,9 @@
      :field-width 1000
      :field-height 620
      :hard-bounds true}
+   :soccer-attribs
+    {:run-speed 1
+     :space? 10}
    :port 5555
    :graphical? false
    :window-x 1000

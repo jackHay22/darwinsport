@@ -15,13 +15,8 @@
     "Take in player and make decisions with interpreter"
     [player]
     ;NOTE: if opponent is within a radius of the player, probabalistically tackle
-    (let [new-x (+ 0.1 (first (:location player)))
-          new-y (+ (rand) (second (:location player)))
-          inbounds? (field/move-possible? new-x new-y)
-          new-loc (cond inbounds? (list new-x new-y)
-                        :else (:location player))]
-    (assoc player :location  new-loc)
-    ))
+    (interp/player-decide player)
+    )
 
 (defn draw-player
     "take graphics object, draw player based on current state (if graphics enabled)"

@@ -8,7 +8,7 @@
 
 (def game-state (atom
   {:ball-location '(500 300)
-   :ball-dx 10
+   :ball-dx 0
    :ball-dy 0
    :score-1 0
    :score-2 0}))
@@ -104,8 +104,9 @@
 (defn set-ball-move
   "set the ball movement attributes (dx dy)"
   [force angle]
-  (let [dx 1 ;TODO: calculate dx dy
-        dy 1]
+  (let [angle-r (Math/toRadians angle)
+        dx (* force (Math/cos angle-r))
+        dy (* force (Math/sin angle-r))]
       (do
         (swap! game-state assoc :ball-dx dx)
         (swap! game-state assoc :ball-dy dy))))
