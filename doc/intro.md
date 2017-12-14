@@ -1,4 +1,4 @@
-# Clojure RallyEvolve
+# Clojure DarwinSport
 
 ## Build image
 - To build new image:

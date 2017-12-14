@@ -17,7 +17,7 @@
         (println "External logging disabled")
         (window/start-window 1000 620))
     (do
-        (println "Running as configuration...")
+        (println "Running as compute node...")
         (println "Starting port server on 5555...")
         (println "External logging to sumologic enabled: \n")
         (socket/start-server
