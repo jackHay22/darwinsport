@@ -30,6 +30,7 @@
 (defn update-no-draw
   "update the players without drawing to window"
   []
+  ;TODO: compute node version of system
   )
 
 (defn keypressed

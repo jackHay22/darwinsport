@@ -106,11 +106,10 @@
 (defn move-bisect
   "player transform to move to a pt between two target pts."
   [player speed p1 p2]
-  (let [angle-pts (angle-to-target p1 p2)
-        half-dist-pts (/ (distance p1 p2) 2)
-        target (pt-at-angle angle-pts p1 half-dist-pts)
-        new-angle (angle-to-target (:location player) target)]
-        ;TODO: angle +90 screwing something up
+  (let [line-eqn (utilities/pts-eqn p1 p2)
+        new-x (- (first p1) (first p2))
+        new-angle (angle-to-target (:location player) (list new-x (line-eqn new-x)))]
+        ;TODO: wrong direction?
     (move
       (assoc player :facing-angle new-angle) speed)))
 
