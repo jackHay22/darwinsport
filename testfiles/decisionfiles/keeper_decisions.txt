@@ -1,0 +1,2 @@
+and ball-settle-radius? : action-settle-ball
+and opponent-possessing-ball? : action-lateral-goal-tend

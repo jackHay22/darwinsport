@@ -11,12 +11,14 @@
 (def space-distance (:space? config-data))
 (def run-speed (:run-speed config-data))
 (def walk-speed (:walk-speed config-data))
+(def lateral-speed (:lateral-speed config-data))
 (def sprint-speed (:sprint-speed config-data))
 (def dribble-spacing (:dribble-spacing config-data))
 (def shot-spacing (:shot-spacing config-data))
 (def dribble-force (:dribble-force config-data))
 (def shot-range (:shot-range config-data))
 (def max-kick-force (:max-kick-force config-data))
+(def settle-radius (:settle-radius config-data))
 
 (defn distance
   "UTILITY: check if player in radius"
@@ -82,10 +84,16 @@
   "take p1, p2, find y value on line, move"
   [player p1 p2]
   (let [player-x (first (:location player))
+        player-y (second (:location player))
         line-eqn (utilities/pts-eqn p1 p2)
-        ]
-        ;TODO: point player towards y value from eqn
-  ))
+        target-y (line-eqn player-x)
+        dif (- target-y player-y)
+        throttle-speed (cond
+                (> dif lateral-speed) lateral-speed
+                (< dif (- 0 lateral-speed)) (- 0 lateral-speed)
+                :else dif)]
+        (assoc player :location (list player-x (+ player-y throttle-speed)))
+        ))
 
 (defn move-bisect
   "player transform to move to a pt between two target pts."
@@ -115,6 +123,7 @@
     (= (first pred) "or") (reduce #(or %1 %2) (map #(check-predicate % player) (rest pred)))
     (= (subs pred 0 1) "!") (not (check-predicate (subs pred 1) player))
     (= pred "self-ball-possessed?") (:possessing-ball? player)
+    (= pred "ball-settle-radius?") (> settle-radius (distance (:location player) (:ball-location player)))
     (= pred "shooting-range?") (> shot-range (distance (:location player) (:target-goal player)))
     (= pred "self-space?") (empty? (filter (fn [p] (> space-distance (distfn (:location p)))) opponent))
     (= pred "team-mate-open?") (not (empty? (filter (fn [p] (:open? p)) team)))
@@ -137,6 +146,8 @@
     (vector? action)  (reduce #(perform-action %2 %1) player action)
     (= action "action-longest-pass-forward") player
     (= action "action-self-dribble-forward") (do (dribble player run-speed) (move player run-speed))
+    (= action "action-settle-ball")
+            (do (fieldstate/set-ball-move 0 (:facing-angle player)) (assoc player :posessing-ball? true))
     (= action "directive-shoot") player
     (= action "directive-self-pass") player
     (= action "action-short-pass-forward") player
@@ -145,7 +156,7 @@
             (do (kick-ball player (:target-goal player)) (move (assoc player :possessing-ball? false) walk-speed))
     (= action "action-tackle") player
     (= action "action-follow-ball") player
-    (= action "action-lateral-goal-tend") (lateral-move-between-pts player (:defend-goal player) (:ball-location))
+    (= action "action-lateral-goal-tend") (lateral-move-between-pts player (:defend-goal player) (:ball-location player))
     (= action "action-intersect-path-defend-ball")
             (move-bisect player sprint-speed (:defend-goal player) (:location (get-possesser player)))
     (= action "action-defensive-drop")

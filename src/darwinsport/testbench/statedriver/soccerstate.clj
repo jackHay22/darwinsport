@@ -23,6 +23,7 @@
       (field/draw-field gr)
       (field/draw-ball gr)
       (field/draw-score gr)
+      (field/draw-test-pt gr 980 297)
       (reset! players-state updated-players)
       (players/draw-players gr updated-players)
       (field/draw-lighting gr)

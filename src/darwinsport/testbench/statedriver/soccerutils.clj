@@ -7,8 +7,8 @@
 (defn pts-eqn
   "given pts, return equation"
   [p1 p2]
-  (let [slope (/ (- (first p2) (first p1)) (- (second p2) (second p1)))]
-    (fn [x] (- (* (- x (first p1)) slope) (second p1)))))
+  (let [slope (/ (- (second p2) (second p1)) (- (first p2) (first p1)))]
+    (fn [x] (+ (* (- x (first p1)) slope) (second p1)))))
 
 (defn pt-in-bounds
   "take pt and check if in bounding box"

@@ -7,7 +7,7 @@
 ; Field/ball, physical game state
 
 (def game-state (atom
-  {:ball-location '(500 300)
+  {:ball-location '(303 100)
    :ball-dx 0
    :ball-dy 0
    :score-1 0

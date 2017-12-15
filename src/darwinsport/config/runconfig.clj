@@ -13,9 +13,11 @@
     {:run-speed 1
      :walk-speed 0.2
      :sprint-speed 1.2
+     :lateral-speed 1
      :space? 30
      :dribble-spacing 18
      :shot-spacing 20
+     :settle-radius 15
      :dribble-force 1.5
      :shot-range 250
      :max-kick-force 10
