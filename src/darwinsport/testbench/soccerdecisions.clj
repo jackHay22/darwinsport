@@ -1,5 +1,6 @@
 (ns darwinsport.testbench.soccerdecisions
   (:require [darwinsport.testbench.soccerfield :as fieldstate]
+            [darwinsport.testbench.statedriver.soccerutils :as utilities]
             [darwinsport.config.runconfig :as config])
   (:gen-class))
 
@@ -57,7 +58,7 @@
 (defn dribble
   "dribble move"
   [player speed]
-  (let [ball-location (fieldstate/ball-location)
+  (let [ball-location (:ball-location player) ;(fieldstate/ball-location)
         player-img (:assigned-image player)
         player-center-x (+ (/ (.getWidth player-img) 2) (first (:location player)))
         player-center-y (+ (/ (.getHeight player-img) 2) (second (:location player)))
@@ -76,6 +77,15 @@
         new-y (+ y (* speed (Math/sin angle)))]
     (if (fieldstate/move-possible? new-x new-y)
       (assoc player :location (list new-x new-y)) player)))
+
+(defn lateral-move-between-pts
+  "take p1, p2, find y value on line, move"
+  [player p1 p2]
+  (let [player-x (first (:location player))
+        line-eqn (utilities/pts-eqn p1 p2)
+        ]
+        ;TODO: point player towards y value from eqn
+  ))
 
 (defn move-bisect
   "player transform to move to a pt between two target pts."
@@ -131,11 +141,16 @@
     (= action "directive-self-pass") player
     (= action "action-short-pass-forward") player
     (= action "action-clear") player
-    (= action "action-shoot") (do (kick-ball player (:target-goal player)) (move (assoc player :possessing-ball? false) walk-speed))
+    (= action "action-shoot")
+            (do (kick-ball player (:target-goal player)) (move (assoc player :possessing-ball? false) walk-speed))
     (= action "action-tackle") player
     (= action "action-follow-ball") player
-    (= action "action-intersect-path-defend-ball") (move-bisect player sprint-speed (:defend-goal player) (:location (get-possesser player)))
-    (= action "action-defensive-drop") (move (assoc player :facing-angle (angle-to-target (:location player) (:defend-goal player))) sprint-speed)
+    (= action "action-lateral-goal-tend") (lateral-move-between-pts player (:defend-goal player) (:ball-location))
+    (= action "action-intersect-path-defend-ball")
+            (move-bisect player sprint-speed (:defend-goal player) (:location (get-possesser player)))
+    (= action "action-defensive-drop")
+            (move (assoc player :facing-angle
+                  (angle-to-target (:location player) (:defend-goal player))) sprint-speed)
     :else player)
   )
 

@@ -4,6 +4,12 @@
 ; -----------------
 ; General utilities
 
+(defn pts-eqn
+  "given pts, return equation"
+  [p1 p2]
+  (let [slope (/ (- (first p2) (first p1)) (- (second p2) (second p1)))]
+    (fn [x] (- (* (- x (first p1)) slope) (second p1)))))
+
 (defn pt-in-bounds
   "take pt and check if in bounding box"
   [x y w h]
@@ -12,6 +18,7 @@
       (> x2 x) (< x2 (+ x w))
       (> y2 y) (< y2 (+ y h)))))
 
+;TODO: broken!
 (defn bounded-box-intersection?
   "take two upper left corner pts, two sets of
   w h, check intersection"
