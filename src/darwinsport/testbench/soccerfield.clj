@@ -116,9 +116,11 @@
 (defn draw-ball
   "take graphics object, draw game ball"
   [gr]
-  (let [location (:ball-location (deref game-state))]
+  (let [location (:ball-location (deref game-state))
+        center-x (- (first location) 5)
+        center-y (- (second location) 5)]
   (sawgr/draw gr
-      (sawgr/image-shape (first location) (second location) ball-image)
+      (sawgr/image-shape center-x center-y ball-image)
           (sawgr/style))))
 
 (defn draw-layer

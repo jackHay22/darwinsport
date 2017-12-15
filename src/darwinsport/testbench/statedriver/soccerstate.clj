@@ -7,7 +7,6 @@
 ; ------------------------------
 ; Game manager and update driver
 
-(def window? (atom false))
 (def paused? (atom false))
 (def players-state (atom (:teams config/teams)))
 
@@ -31,7 +30,6 @@
 (defn update-no-draw
   "update the players without drawing to window"
   []
-
   )
 
 (defn keypressed

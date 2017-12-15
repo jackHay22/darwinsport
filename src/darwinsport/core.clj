@@ -5,20 +5,25 @@
   (:gen-class))
 
 (defn -main
-  "Start remote testing node:
+  "Start remote testing node or graphical system
     -socket server listens for individuals
-    -performs async test on individual and returns
-  "
+      -performs async test on individual and returns
+    -graphical mode runs in realtime with predefined players"
   [instance]
   (if (= instance "-demo")
     (do
-        (println "Running graphical mode...")
-        (println "Port Server not started")
-        (println "External logging disabled")
-        (window/start-window 1000 620))
+        (println "------ Demo Mode ------")
+        (println ">> Running graphical mode")
+        (println ">> Port Server not started")
+        (println ">> External logging disabled")
+        (window/start-window
+          (:window-x config/framework)
+          (:window-y config/framework)))
     (do
-        (println "Running as compute node...")
-        (println "Starting port server on 5555...")
-        (println "External logging to sumologic enabled: \n")
+        (println "------ Compute Mode ------")
+        (println ">> Running as compute node #" instance)
+        (println ">> Starting port server on " (:port config/framework))
+        (println ">> External logging to sumologic enabled: \n")
         (socket/start-server
-            (assoc config/framework :send-log ((:send-log config/framework) instance))))))
+            (assoc config/framework :send-log
+              ((:send-log config/framework) instance))))))
