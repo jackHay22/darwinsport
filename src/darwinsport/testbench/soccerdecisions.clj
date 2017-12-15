@@ -29,11 +29,11 @@
     (Math/sqrt (+ (* xdif xdif) (* ydif ydif)))))
 
 (defn angle-to-target
-    "finds the angle between the vehicle location and the target"
+    "finds the angle between the location and the target"
     [xy1 xy2]
     (let [dx (- (first xy2) (first xy1))
           dy (- (second xy2) (second xy1))]
-    (+ 90 (Math/toDegrees (Math/atan (/ dx dy))))))
+    (Math/toDegrees (Math/atan (/ dx dy)))))
 
 (defn pt-at-angle
   "given angle dist and pt, generate resultant pt"
@@ -159,7 +159,7 @@
     (= action "action-lateral-goal-tend") (lateral-move-between-pts player (:defend-goal player) (:ball-location player))
     (= action "action-intersect-path-defend-ball")
             (move-bisect player sprint-speed (:defend-goal player) (:location (get-possesser player)))
-    (= action "action-defensive-drop")
+    (= action "action-defensive-drop") ;TODO: not working
             (move (assoc player :facing-angle
                   (angle-to-target (:location player) (:defend-goal player))) sprint-speed)
     :else player)

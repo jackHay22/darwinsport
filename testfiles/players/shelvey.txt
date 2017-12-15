@@ -1,4 +1,4 @@
-{:location (300 100)
+{:location (200 200)
  :facing-angle 0
  :team ()
  :opponent ()
