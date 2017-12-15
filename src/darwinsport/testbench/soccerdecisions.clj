@@ -156,7 +156,9 @@
             (do (kick-ball player (:target-goal player)) (move (assoc player :possessing-ball? false) walk-speed))
     (= action "action-tackle") player
     (= action "action-follow-ball") player
-    (= action "action-lateral-goal-tend") (lateral-move-between-pts player (:defend-goal player) (:ball-location player))
+    (= action "action-lateral-goal-tend")
+            (do (lateral-move-between-pts player (:defend-goal player) (:ball-location player))
+                (assoc player :facing-angle (angle-to-target (:ball-location player) (:location player))))
     (= action "action-intersect-path-defend-ball")
             (move-bisect player sprint-speed (:defend-goal player) (:location (get-possesser player)))
     (= action "action-defensive-drop") ;TODO: not working

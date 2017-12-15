@@ -44,8 +44,8 @@
           op (AffineTransformOp. tx AffineTransformOp/TYPE_BILINEAR)]
           (sawgr/draw gr
             (sawgr/image-shape
-                (first (:location p))
-                (second (:location p))
+                (- (first (:location p)) center-x )
+                (- (second (:location p)) center-y)
                 (.filter op assigned-image nil))
               (sawgr/style))))
 

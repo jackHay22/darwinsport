@@ -21,7 +21,7 @@
      :dribble-force 1.5
      :shot-range 250
      :max-kick-force 10
-     :goal-locations '((18 297) (980 297))}
+     :goal-locations '((0 297) (1000 297))}
    :port 5555
    :graphical? false
    :window-x 1000
