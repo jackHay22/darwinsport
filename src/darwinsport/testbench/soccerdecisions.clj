@@ -8,6 +8,9 @@
 ; Decision interpreter
 
 (def config-data (:soccer-attribs config/framework))
+(def first-decision-only? (:first-decision-only? config/framework))
+
+;soccer-specific constants
 (def space-distance (:space? config-data))
 (def run-speed (:run-speed config-data))
 (def walk-speed (:walk-speed config-data))
@@ -44,6 +47,10 @@
         (list
           (+ x (* dist (Math/cos angle)))
           (+ y (* dist (Math/sin angle))))))
+
+(defn self-closest-to-ball
+  "check if player is the closest to the ball on their team"
+  [player])
 
 (defn kick-ball
   "kick the game ball if close enough"
@@ -128,6 +135,7 @@
     (= pred "shooting-range?") (> shot-range (distance (:location player) (:target-goal player)))
     (= pred "self-space?") (empty? (filter (fn [p] (> space-distance (distfn (:location p)))) opponent))
     (= pred "team-mate-open?") (not (empty? (filter (fn [p] (:open? p)) team)))
+    (= pred "open-forward-pass?") false ;check if there is a team player far enough from an opponent
     (= pred "self-defensive-third?") false ;TODO
     (= pred "self-offensive-third?") false ;TODO
     (= pred "close-to-goal?") false ;TODO
@@ -169,7 +177,7 @@
   )
 
 (defn player-decide
-  "given a player and the players decision code, make a game play decision"
+  "given a player and the players decision code, make a game play decision or all possible decisions"
   [player]
   (let [decisions (:defined-decisions player)
         ;directives (:directives player)
@@ -178,5 +186,7 @@
             (fn [p b]
               (if
                 (check-predicate (first b) p)
-                (perform-action (second b) p) p))
+                (let [player-res (perform-action (second b) p)]
+                  (if first-decision-only? (reduced player-res) res))
+                 p))
            player decisions)))

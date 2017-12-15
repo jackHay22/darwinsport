@@ -9,6 +9,7 @@
      :field-width 1000
      :field-height 620
      :hard-bounds true}
+   :first-decision-only? false  ;note: if this is disabled, later moves have the chance of canceling earlier player movements
    :soccer-attribs
     {:run-speed 1
      :walk-speed 0.2
