@@ -33,7 +33,8 @@
     [xy1 xy2]
     (let [dx (- (first xy2) (first xy1))
           dy (- (second xy2) (second xy1))]
-    (Math/toDegrees (Math/atan (/ dx dy)))))
+    ;find (complement?) of angle between pts
+    (- 90 (Math/toDegrees (Math/atan (/ dx dy))))))
 
 (defn pt-at-angle
   "given angle dist and pt, generate resultant pt"
@@ -60,7 +61,7 @@
 (defn dribble
   "dribble move"
   [player speed]
-  (let [ball-location (:ball-location player) ;(fieldstate/ball-location)
+  (let [ball-location (:ball-location player)
         player-img (:assigned-image player)
         player-center-x (+ (/ (.getWidth player-img) 2) (first (:location player)))
         player-center-y (+ (/ (.getHeight player-img) 2) (second (:location player)))

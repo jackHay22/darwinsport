@@ -1,4 +1,4 @@
-{:location (20 270)
+{:location (40 270)
  :facing-angle 0
  :team ()
  :opponent ()
