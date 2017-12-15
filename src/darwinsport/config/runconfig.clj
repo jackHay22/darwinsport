@@ -35,6 +35,6 @@
          (load-with-framework "testfiles/players/shelvey.txt" 1 1)
          (load-with-framework "testfiles/players/reis.txt" 1 2)
          (load-with-framework "testfiles/players/ritchie.txt" 1 0)
-         (load-with-framework "testfiles/players/yedlin.txt" 0 0)
-         (load-with-framework "testfiles/players/howard.txt" 0 1)
+         (load-with-framework "testfiles/players/yedlin.txt" 0 3)
+         (load-with-framework "testfiles/players/howard.txt" 0 4)
       )})

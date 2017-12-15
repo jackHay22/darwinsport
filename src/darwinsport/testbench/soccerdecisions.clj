@@ -6,15 +6,16 @@
 ; ----------------
 ; Decision interpreter
 
-(def space-distance (:space? (:soccer-attribs config/framework)))
-(def run-speed (:run-speed (:soccer-attribs config/framework)))
-(def walk-speed (:walk-speed (:soccer-attribs config/framework)))
-(def sprint-speed (:sprint-speed (:soccer-attribs config/framework)))
-(def dribble-spacing (:dribble-spacing (:soccer-attribs config/framework)))
-(def shot-spacing (:shot-spacing (:soccer-attribs config/framework)))
-(def dribble-force (:dribble-force (:soccer-attribs config/framework)))
-(def shot-range (:shot-range (:soccer-attribs config/framework)))
-(def max-kick-force (:max-kick-force (:soccer-attribs config/framework)))
+(def config-data (:soccer-attribs config/framework))
+(def space-distance (:space? config-data))
+(def run-speed (:run-speed config-data))
+(def walk-speed (:walk-speed config-data))
+(def sprint-speed (:sprint-speed config-data))
+(def dribble-spacing (:dribble-spacing config-data))
+(def shot-spacing (:shot-spacing config-data))
+(def dribble-force (:dribble-force config-data))
+(def shot-range (:shot-range config-data))
+(def max-kick-force (:max-kick-force config-data))
 
 (defn distance
   "UTILITY: check if player in radius"

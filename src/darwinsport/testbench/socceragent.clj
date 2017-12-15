@@ -3,6 +3,7 @@
   (:require [seesaw.graphics :as sawgr]
             [seesaw.icon :as sawicon]
             [darwinsport.testbench.soccerfield :as field]
+            [darwinsport.testbench.statedriver.soccerutils :as utilities]
             [darwinsport.testbench.soccerdecisions :as interp]))
 
 (import 'java.awt.geom.AffineTransform)
@@ -11,12 +12,26 @@
 ; -----------------------------
 ; Players, supporting functions
 
+;TODO: not working
+(defn no-intersection
+  "take player and list of players and check for intersects"
+  [p all]
+  (let [width (.getWidth (:assigned-image p))
+        height (.getHeight (:assigned-image p))
+        intersectfn (utilities/bounded-box-intersection? (:location p) width height)]
+    (empty?
+      (filter (fn [other] (intersectfn (:location other) width height)) all))))
+
 (defn update-player
     "Take in player and make decisions with interpreter"
-    [player]
+    [player all-players]
     ;NOTE: if opponent is within a radius of the player, probabalistically tackle
-    (interp/player-decide player)
-    )
+    (let [current-id (:id player)
+          all-others (filter (fn [p] (not (= current-id (:id p)))) all-players)
+          updated-player (interp/player-decide player)]
+        (if (no-intersection updated-player all-others)
+          updated-player
+          player)))
 
 (defn draw-player
     "take graphics object, draw player based on current state (if graphics enabled)"
@@ -50,7 +65,7 @@
         team-aware (map (associate-team-to-player team1 team2 :team) all-players)
         opponent-aware (map (associate-team-to-player team2 team1 :opponent) team-aware)
         ball-aware (map #(assoc % :ball-location ball-location) opponent-aware)]
-        (map update-player ball-aware)))
+        (map #(update-player % all-players) ball-aware)))
 
 (defn draw-players
   "draw all players in list"
