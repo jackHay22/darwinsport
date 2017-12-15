@@ -187,6 +187,6 @@
               (if
                 (check-predicate (first b) p)
                 (let [player-res (perform-action (second b) p)]
-                  (if first-decision-only? (reduced player-res) res))
+                  (if first-decision-only? (reduced player-res) player-res))
                  p))
            player decisions)))
