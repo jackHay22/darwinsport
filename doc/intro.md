@@ -10,6 +10,11 @@
 - Note: to minimize image size/instance size check in stdout and use ```.dockerignore``` to remove unnecessary build inclusions:
   - ```Sending build context to Docker daemon  <size>MB```
 
+## Resources
+- Player config files can be found in ``` testfiles/players ```
+- Decision code files can be found in ``` testfiles/decisionfiles ```
+- Graphical resources can be found in ``` resources/images ```
+
 ## Graphical mode
 - Darwin has its own builtin graphical abilities
 - DarwinSport has a real-time top-down soccer game window.  This should typically be used outside of a run

@@ -3,6 +3,16 @@
             [darwinsport.testbench.statedriver.soccerutils :as utilities])
   (:gen-class))
 
+(defn fitness-calculator
+  "take final player analytics and generate fitness"
+  [player]
+  (let [goals (:goals player)
+        tackles (:tackles player)
+        passes (:passes player)
+        total-touches (:total-touches player)]
+    0
+    ))
+
 (def framework
   {:tests
     {:test-list '()}
@@ -20,6 +30,7 @@
      :shot-range 250
      :max-kick-force 10
      :goal-locations '((0 297) (1000 297))}
+   :fitness-calculus fitness-calculator
    :port 5555
    :window-x 1000
    :window-y 620
