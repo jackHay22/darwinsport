@@ -9,6 +9,7 @@
                    java.awt.event.KeyEvent/VK_LEFT :left
                    java.awt.event.KeyEvent/VK_RIGHT :right
                    java.awt.event.KeyEvent/VK_SPACE :space
+                   java.awt.event.KeyEvent/VK_ENTER :enter
                    java.awt.event.KeyEvent/VK_P :p})
 
 (defn start-window
