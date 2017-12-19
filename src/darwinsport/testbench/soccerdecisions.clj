@@ -23,7 +23,7 @@
 (def max-kick-force (:max-kick-force config-data))
 (def settle-radius (:settle-radius config-data))
 
-(def increment-analytic
+(defn increment-analytic
   "take player and analytic type, increment
   possible:
     :goals
