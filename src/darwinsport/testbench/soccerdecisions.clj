@@ -23,6 +23,16 @@
 (def max-kick-force (:max-kick-force config-data))
 (def settle-radius (:settle-radius config-data))
 
+(def increment-analytic
+  "take player and analytic type, increment
+  possible:
+    :goals
+    :tackles
+    :passes
+    :total-touches"
+  [player type]
+  (assoc player type (+ 1 (type player))))
+
 (defn distance
   "UTILITY: check if player in radius"
   [xy1 xy2]
@@ -36,7 +46,7 @@
     [xy1 xy2]
     (let [dx (- (first xy2) (first xy1))
           dy (- (second xy2) (second xy1))]
-    ;find (complement?) of angle between pts
+    ;find (complement?) of angle between pts -- still potentially broken
     (- 90 (Math/toDegrees (Math/atan (/ dx dy))))))
 
 (defn pt-at-angle
@@ -50,7 +60,9 @@
 
 (defn self-closest-to-ball
   "check if player is the closest to the ball on their team"
-  [player])
+  [player]
+  ;TODO
+  )
 
 (defn kick-ball
   "kick the game ball if close enough"
@@ -61,9 +73,9 @@
         calculate-angle (angle-to-target (:location player) target)
         calculate-velocity (/ (distance (:location player) target) 10)
         throttle-force (if (> calculate-velocity max-kick-force) max-kick-force calculate-velocity)]
-        ;(println "Velocity: " calculate-velocity " Throttled: " throttle-force " player loc: " (:location player) "target: " target)
     (if (> shot-spacing dist-player-to-ball)
-      (fieldstate/set-ball-move throttle-force calculate-angle))))
+      (do (increment-analytic player :total-touches)  ;TODO: check if this action was effective
+          (fieldstate/set-ball-move throttle-force calculate-angle)))))
 
 (defn dribble
   "dribble move"
@@ -75,7 +87,8 @@
         angle (:facing-angle player)
         dist-player-to-ball (distance ball-location (list player-center-x player-center-y))]
   (if (> dribble-spacing dist-player-to-ball)
-    (fieldstate/set-ball-move (* speed dribble-force) angle))))
+    (do (increment-analytic player :total-touches)
+        (fieldstate/set-ball-move (* speed dribble-force) angle)))))
 
 (defn move
   "player transform for running at angle"
@@ -100,8 +113,7 @@
                 (> dif lateral-speed) lateral-speed
                 (< dif (- 0 lateral-speed)) (- 0 lateral-speed)
                 :else dif)]
-        (assoc player :location (list player-x (+ player-y throttle-speed)))
-        ))
+        (assoc player :location (list player-x (+ player-y throttle-speed)))))
 
 (defn move-bisect
   "player transform to move to a pt between two target pts."
@@ -109,7 +121,8 @@
   (let [line-eqn (utilities/pts-eqn p1 p2)
         new-x (- (first p1) (first p2))
         new-angle (angle-to-target (:location player) (list new-x (line-eqn new-x)))]
-        ;TODO: wrong direction?
+        ;TODO: wrong direction? (also, different than lateral-move-between-pts)
+        ;potentially set x, y
     (move
       (assoc player :facing-angle new-angle) speed)))
 

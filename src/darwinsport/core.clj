@@ -22,8 +22,9 @@
     (do
         (println "------ Compute Mode ------")
         (println ">> Running as compute node #" instance)
-        (println ">> Starting port server on " (:port config/framework))
-        (println ">> External logging to sumologic enabled: \n")
+        (println ">> Starting port server on" (:port config/framework))
+        (println ">> External logging to sumologic enabled: ")
+        (print ">> Log ")
         (socket/start-server
             (assoc config/framework :send-log
               ((:send-log config/framework) instance))))))

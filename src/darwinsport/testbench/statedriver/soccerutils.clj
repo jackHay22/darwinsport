@@ -65,5 +65,9 @@
              :target-goal (nth (:goal-locations (:soccer-attribs config)) teamnumber)
              :defend-goal (nth (:goal-locations (:soccer-attribs config)) (if (= teamnumber 1) 0 1))
              :defined-decisions (load-decision-code (:defined-decisions loaded-player))
+             :goals 0
+             :tackles 0
+             :passes 0
+             :total-touches 0
              }]
     (merge loaded-player player-expansion)))

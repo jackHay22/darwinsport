@@ -5,10 +5,7 @@
 
 (def framework
   {:tests
-    {:test-list '("testfiles/test1.txt" "testfiles/test2.txt")
-     :field-width 1000
-     :field-height 620
-     :hard-bounds true}
+    {:test-list '()}
    :first-decision-only? false  ;note: if this is disabled, later moves have the chance of canceling earlier player movements
    :soccer-attribs
     {:run-speed 1
