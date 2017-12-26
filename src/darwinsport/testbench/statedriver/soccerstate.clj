@@ -2,7 +2,6 @@
   (:gen-class)
   (:require [darwinsport.testbench.soccerfield :as field]
             [darwinsport.testbench.socceragent :as players]
-            [darwinsport.testbench.statedriver.ui :as ui]
             [darwinsport.config.runconfig :as config]))
 
 ; ------------------------------
@@ -40,10 +39,4 @@
   ;update player characteristics based on end of key press
   (if (= key :p)
     (let [p (deref paused?)]
-      (reset! paused? (not p))))
-  (if (= key :enter)
-      (ui/make-selection))
-  (if (= key :right)
-      (ui/move #(+ % 1)))
-  (if (= key :left)
-      (ui/move #(- % 1))))
+      (reset! paused? (not p)))))
