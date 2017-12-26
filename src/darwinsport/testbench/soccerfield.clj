@@ -35,7 +35,7 @@
 (def goal-y-1 239)
 (def goal-y-2 356)
 
-(def grass-friction 0.96) ;effects ball speed after each frame (by multiplication)
+(def grass-friction 0.96) ;affects ball speed after each frame (by multiplication)
 
 (defn draw-test-pt
   "draw a pt for testing purposes"
@@ -48,9 +48,9 @@
   [gr]
     (let [state (deref game-state)
           score (str (:score-1 state) " --- " (:score-2 state))]
-          (.setColor gr text-color)
-          (.setFont gr score-font)
-          (.drawString gr score 465 22)))
+        (.setColor gr text-color)
+        (.setFont gr score-font)
+        (.drawString gr score 465 22)))
 
 (defn move-possible?
   "determine if a move to a coordinate in the game space is allowed"

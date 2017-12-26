@@ -47,7 +47,7 @@
     (let [dx (- (first xy2) (first xy1))
           dy (- (second xy2) (second xy1))]
     ;find (complement?) of angle between pts -- still potentially broken
-    (- 90 (Math/toDegrees (Math/atan (/ dx dy))))))
+    (Math/toDegrees (Math/atan2 dy dx))))
 
 (defn pt-at-angle
   "given angle dist and pt, generate resultant pt"
@@ -113,18 +113,21 @@
                 (> dif lateral-speed) lateral-speed
                 (< dif (- 0 lateral-speed)) (- 0 lateral-speed)
                 :else dif)]
+        ;TODO: use move instead of calc
         (assoc player :location (list player-x (+ player-y throttle-speed)))))
 
 (defn move-bisect
   "player transform to move to a pt between two target pts."
   [player speed p1 p2]
   (let [line-eqn (utilities/pts-eqn p1 p2)
-        new-x (- (first p1) (first p2))
-        new-angle (angle-to-target (:location player) (list new-x (line-eqn new-x)))]
+        new-x (/ (+ (first p2) (first p1)) 2)
+        new-y (line-eqn new-x)
+        new-angle (angle-to-target (:location player) (list new-x new-y))]
         ;TODO: wrong direction? (also, different than lateral-move-between-pts)
         ;potentially set x, y
     (move
       (assoc player :facing-angle new-angle) speed)))
+
 
 (defn get-possesser
   "take player, get player on either team possessing ball"
@@ -150,6 +153,7 @@
     (= pred "open-forward-pass?") false ;check if there is a team player far enough from an opponent
     (= pred "self-defensive-third?") false ;TODO
     (= pred "self-offensive-third?") false ;TODO
+    (= pred "self-defending-square-to-goal") false ;TODO
     (= pred "close-to-goal?") false ;TODO
     (= pred "tackle-range?") false ;TODO
     (= pred "team-possessing-ball?") (not (empty? (filter (fn [p] (:possessing-ball? p)) team)))
@@ -178,8 +182,8 @@
     (= action "action-tackle") player
     (= action "action-follow-ball") player
     (= action "action-lateral-goal-tend")
-            (do (lateral-move-between-pts player (:defend-goal player) (:ball-location player))
-                (assoc player :facing-angle (angle-to-target (:ball-location player) (:location player))))
+            (assoc (lateral-move-between-pts player (:defend-goal player) (:ball-location player))
+                :facing-angle (angle-to-target (:ball-location player) (:location player)))
     (= action "action-intersect-path-defend-ball")
             (move-bisect player sprint-speed (:defend-goal player) (:location (get-possesser player)))
     (= action "action-defensive-drop") ;TODO: not working
