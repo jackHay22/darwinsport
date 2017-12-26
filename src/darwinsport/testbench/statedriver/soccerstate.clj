@@ -24,8 +24,7 @@
       (field/draw-score gr)
       (reset! players-state updated-players)
       (players/draw-players gr updated-players)
-      (field/draw-lighting gr)
-      ))
+      (field/draw-lighting gr)))
 
 (defn update-no-draw
   "update the players without drawing to window"
