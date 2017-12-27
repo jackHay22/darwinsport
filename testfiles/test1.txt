@@ -1,4 +1,0 @@
-{:testname "situational awareness"
- :player-position '(50 50)
- :opponent-preset 1
- :max-tick-duration 500}
