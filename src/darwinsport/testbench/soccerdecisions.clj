@@ -89,6 +89,7 @@
                   (decisionutils/angle-to-target (:location player) (:defend-goal player))) sprint-speed)
     (= action "action-step-to-possesser") (decisionutils/move (assoc player :facing-angle
                   (decisionutils/angle-to-target (:location player) (:location (decisionutils/get-possesser player)))) sprint-speed)
+    (= action "action-outside-run") (decisionutils/move (decisionutils/outside-forward-run player) sprint-speed)
     :else (do (println "DEBUG: " action " action not parsed") player)))
 
 (defn player-decide

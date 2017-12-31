@@ -1,0 +1,6 @@
+and ball-settle-radius? !self-ball-possessed? : action-settle-ball
+and self-ball-possessed? self-space? shooting-range? : action-shoot
+and self-ball-possessed? !self-space? team-mate-open? : action-leading-pass
+and self-ball-possessed? self-space? : action-dribble-forward
+and self-closest-to-ball? !opponent-possessing-ball? : action-recover-ball
+or !opponent-possessing-ball? team-possessing-ball? : action-outside-run

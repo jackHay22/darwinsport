@@ -1,0 +1,6 @@
+{:location (200 550)
+ :facing-angle 0
+ :possessing-ball? false
+ :open? true
+ :assigned-image "images/players/team1player3.png"
+ :defined-decisions "testfiles/decisionfiles/winger_decisions.txt"}

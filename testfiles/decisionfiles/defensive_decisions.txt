@@ -1,4 +1,4 @@
 and opponent-possessing-ball? self-defending-square-to-goal? tackle-range? : action-tackle
 and opponent-possessing-ball? self-defending-square-to-goal? : action-step-to-possesser
-and opponent-possessing-ball? : action-intersect-path-defend-ball
+and opponent-possessing-ball? self-closest-to-ball? : action-intersect-path-defend-ball
 and !team-possessing-ball? !ball-forward? : action-defensive-drop

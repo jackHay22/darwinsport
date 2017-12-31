@@ -153,6 +153,16 @@
   (first
     (filter #(:possessing-ball? %) (concat (:opponent player) (:team player)))))
 
+(defn outside-forward-run
+  "take player, change player angle for outside run"
+  [player]
+  (let [target-goal (:target-goal player)
+        desired-y (if (> (first (:location player)) 280) 580 32)
+        bisect-sideline-target (+ (first (:location player)) (/ (- (first target-goal) (first (:location player))) 2))]
+        (if (< (distance (:location player) target-goal) 250)
+            (assoc player :facing-angle (angle-to-target (:location player) target-goal))
+            (assoc player :facing-angle (angle-to-target (:location player) (list bisect-sideline-target desired-y))))))
+
 (defn get-best-open-target
   "find the best positioned forward player"
   [player]

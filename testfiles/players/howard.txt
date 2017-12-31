@@ -1,8 +1,5 @@
 {:location (950 280)
  :facing-angle 180
- :team ()
- :opponent ()
- :ball-location (10 10)
  :possessing-ball? false
  :open? true
  :assigned-image "images/players/team2keeper.png"
