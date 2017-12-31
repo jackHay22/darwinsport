@@ -38,11 +38,11 @@
 })
 
 (def roster
-  ;player file and team number 
+  ;player file and team number
   '(("testfiles/players/shelvey.txt" 1)
     ("testfiles/players/reis.txt" 1)
     ("testfiles/players/ritchie.txt" 1)
     ("testfiles/players/yedlin.txt" 0)
     ("testfiles/players/howard.txt" 0)))
 
-(def teams (map #(utilities/load-player (first %1) (second %1) %2 framework) roster (range)))
+(def teams (utilities/associate-teams (map #(utilities/load-player (first %1) (second %1) %2 framework) roster (range))))

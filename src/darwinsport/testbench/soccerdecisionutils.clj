@@ -60,7 +60,7 @@
         calculate-velocity (/ (distance (:location player) target) 10)
         throttle-force (if (> calculate-velocity max-kick-force) max-kick-force calculate-velocity)]
     (if (> shot-spacing dist-player-to-ball)
-      (do (increment-analytic player :total-touches)  ;TODO: check if this action was effective
+      (do (increment-analytic player :total-touches)  ;TODO: check if this action was effective..also, might be lost
           (ball-move throttle-force calculate-angle)))))
 
 (defn leading-pass
@@ -79,7 +79,7 @@
         y-guess (target-trajectory-fn x-guess)]
         (do
           (kick-ball player (list x-guess y-guess) max-kick-force shot-spacing)
-          player)))
+          (assoc player :possessing-ball? false))))
 
 (defn dribble
   "dribble move"
@@ -91,7 +91,7 @@
         angle (:facing-angle player)
         dist-player-to-ball (distance ball-location (list player-center-x player-center-y))]
   (if (> dribble-spacing dist-player-to-ball)
-    (do (increment-analytic player :total-touches)
+    (do (increment-analytic player :total-touches) ;TODO: return this so it isnt lost
         (ball-move (* speed dribble-force) angle)))))
 
 (defn move
@@ -161,6 +161,9 @@
         forward-dir-x (first (:target-goal player))
         comp (if (> forward-dir-x self-x) > <)
         forward-players (filter (fn [p] (comp (first (:location p)) self-x)) open-team)
-        best (if (not (empty? forward-players)) (first forward-players) (first open-team))]
-        best
-  ))
+        distfn #(distance (:location player) %)
+        assoc-dist-players (map (fn [p] (assoc p :dist (distfn (:location p)))) open-team)
+        closest-player (reduce (fn [best next] (if (< (:dist next) (:dist best)) next best)) assoc-dist-players)]
+        (cond
+          (not (empty? forward-players)) (first forward-players)
+          :else closest-player)))
