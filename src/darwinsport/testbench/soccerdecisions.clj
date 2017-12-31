@@ -40,6 +40,9 @@
     (= pred "open-forward-pass?") false ;check if there is a team player far enough from an opponent
     (= pred "self-defensive-third?") false ;TODO
     (= pred "self-offensive-third?") false ;TODO
+    (= pred "self-closest-to-ball?")
+          (let [player-ball-dist (distfn (:ball-location player))]
+              (empty? (filter #(< (decisionutils/distance (:location %) (:ball-location player)) player-ball-dist) team)))
     (= pred "self-defending-square-to-goal?") (decisionutils/approx-bisecting-pts? player (:defend-goal player)
                                                   (:ball-location player) 60) ;settle-radius) ;TODO: sort this out
     (= pred "tackle-range?") (> space-distance (decisionutils/distance (:location player) (:location (decisionutils/get-possesser player))))
@@ -57,9 +60,15 @@
   (cond
     (vector? action)  (reduce #(perform-action %2 %1) player action)
     (= action "action-longest-pass-forward") player
-    (= action "action-dribble-forward") (do (decisionutils/dribble player run-speed dribble-spacing dribble-force) (decisionutils/move player run-speed))
+    (= action "action-dribble-forward") (let [facing-goal (assoc player :facing-angle
+                                                              (decisionutils/angle-to-target (:location player) (:target-goal player)))]
+                                              (decisionutils/dribble facing-goal run-speed dribble-spacing dribble-force)
+                                              (decisionutils/move facing-goal run-speed))
     (= action "action-settle-ball")
             (do (decisionutils/ball-move 0 (:facing-angle player)) (assoc player :possessing-ball? true))
+    (= action "action-recover-ball")
+          (decisionutils/move
+                (assoc player :facing-angle (decisionutils/angle-to-target (:location player) (:ball-location player))) run-speed)
     (= action "directive-shoot") player
     (= action "directive-self-pass") player
     (= action "action-short-pass-forward") player

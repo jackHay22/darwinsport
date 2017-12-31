@@ -28,7 +28,7 @@
      :settle-radius 15
      :dribble-force 1.3
      :shot-range 250
-     :max-kick-force 10
+     :max-kick-force 7
      :goal-locations '((0 297) (1000 297))}
    :fitness-calculus fitness-calculator
    :port 5555

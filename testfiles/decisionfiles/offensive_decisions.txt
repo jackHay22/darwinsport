@@ -3,3 +3,4 @@ and self-ball-possessed? self-space? shooting-range? : action-shoot
 and self-ball-possessed? !self-space? team-mate-open? : action-leading-pass
 and self-ball-possessed? self-space? : action-dribble-forward
 and !self-ball-possessed? team-possessing-ball? : action-forward-run
+and self-closest-to-ball? !opponent-possessing-ball? : action-recover-ball
