@@ -52,22 +52,6 @@
       (map (fn [line] (clojure.string/split line #" : "))
             (clojure.string/split-lines (slurp location-file)))))
 
-(defn associate-team-to-player
-    "take a player, associate that player's team field with a team list"
-    [t1 t2 result-team]
-    (fn [player]
-        (let [id (:id player)
-              team (if (= (:team-number player) 1) t1 t2)]
-          (assoc player result-team (filter (fn [p] (not (= (:id p) id))) team)))))
-
-(defn associate-teams
-  "associate teams with each player"
-  [all-players]
-  (let [team1 (filter (fn [p] (= (:team-number p) 1)) all-players)
-        team2 (filter (fn [p] (= (:team-number p) 2)) all-players)
-        team-aware (map (associate-team-to-player team1 team2 :team) all-players)]
-        (map (associate-team-to-player team2 team1 :opponent) team-aware)))
-
 (defn load-player
     "takes a player in file and loads images, code, etc..."
     [playerfile teamnumber id config]

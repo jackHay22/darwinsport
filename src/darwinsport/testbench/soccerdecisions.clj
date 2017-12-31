@@ -59,7 +59,7 @@
     (= action "action-longest-pass-forward") player
     (= action "action-dribble-forward") (do (decisionutils/dribble player run-speed dribble-spacing dribble-force) (decisionutils/move player run-speed))
     (= action "action-settle-ball")
-            (do (decisionutils/ball-move 0 (:facing-angle player)) (assoc player :posessing-ball? true))
+            (do (decisionutils/ball-move 0 (:facing-angle player)) (assoc player :possessing-ball? true))
     (= action "directive-shoot") player
     (= action "directive-self-pass") player
     (= action "action-short-pass-forward") player

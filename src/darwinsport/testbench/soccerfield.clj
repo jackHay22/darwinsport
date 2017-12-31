@@ -35,7 +35,7 @@
 (def goal-y-1 239)
 (def goal-y-2 356)
 
-(def grass-friction 0.96) ;affects ball speed after each frame (by multiplication)
+(def grass-friction 0.98) ;affects ball speed after each frame (by multiplication)
 
 (defn draw-test-pt
   "draw a pt for testing purposes"

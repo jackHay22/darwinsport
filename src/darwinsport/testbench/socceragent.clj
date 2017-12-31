@@ -34,10 +34,26 @@
           updated-player
           player)))
 
+(defn associate-team-to-player
+  "take a player, associate that player's team field with a team list"
+  [t1 t2 result-team]
+  (fn [player]
+    (let [team (if (= (:team-number player) 0) t1 t2)
+          remove-self (filter #(not (= (:id %) (:id player))) team)]
+        (assoc player result-team (map #(hash-map
+          :location (:location %)
+          :facing-angle (:facing-angle %)
+          :open? (:open? %)
+          :possessing-ball? (:possessing-ball? %)) remove-self)))))
+
 (defn update-and-decide
   "update each player in list, making a single decision per tick for each"
   [all-players ball-location]
-  (let [ball-aware (map #(assoc % :ball-location ball-location) all-players)]
+  (let [team1 (filter (fn [p] (= (:team-number p) 0)) all-players)
+        team2 (filter (fn [p] (= (:team-number p) 1)) all-players)
+        team-aware (map (associate-team-to-player team1 team2 :team) all-players)
+        opponent-aware (map (associate-team-to-player team2 team1 :opponent) team-aware)
+        ball-aware (map #(assoc % :ball-location ball-location) opponent-aware)]
         (map #(update-player % all-players) ball-aware)))
 
 (defn draw-player

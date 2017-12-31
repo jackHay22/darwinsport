@@ -70,7 +70,7 @@
         target-angle (:facing-angle target)
         p2 (pt-at-angle target-angle target-loc-current target-speed)
         target-trajectory-fn (utilities/pts-eqn target-loc-current p2)
-        relative-frame-distance (* (/ (distance (:location player) target-loc-current) max-kick-force) 2)
+        relative-frame-distance (/ (distance (:location player) target-loc-current) max-kick-force)
         target-running-dist (* target-speed relative-frame-distance)
         ;check direction to calculate x pt.
         x-guess (if (> (first p2) (first target-loc-current))
@@ -86,8 +86,8 @@
   [player speed dribble-spacing dribble-force]
   (let [ball-location (:ball-location player)
         player-img (:assigned-image player)
-        player-center-x (+ (/ (.getWidth player-img) 2) (first (:location player)))
-        player-center-y (+ (/ (.getHeight player-img) 2) (second (:location player)))
+        player-center-x (first (:location player))
+        player-center-y (second (:location player))
         angle (:facing-angle player)
         dist-player-to-ball (distance ball-location (list player-center-x player-center-y))]
   (if (> dribble-spacing dist-player-to-ball)

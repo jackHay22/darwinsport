@@ -22,11 +22,11 @@
      :walk-speed 0.2
      :sprint-speed 1.1
      :lateral-speed 0.8
-     :space? 40
-     :dribble-spacing 18
+     :space? 55
+     :dribble-spacing 15
      :shot-spacing 20
      :settle-radius 15
-     :dribble-force 1.5
+     :dribble-force 1.3
      :shot-range 250
      :max-kick-force 10
      :goal-locations '((0 297) (1000 297))}
@@ -45,4 +45,4 @@
     ("testfiles/players/yedlin.txt" 0)
     ("testfiles/players/howard.txt" 0)))
 
-(def teams (utilities/associate-teams (map #(utilities/load-player (first %1) (second %1) %2 framework) roster (range))))
+(def teams (map #(utilities/load-player (first %1) (second %1) %2 framework) roster (range)))
