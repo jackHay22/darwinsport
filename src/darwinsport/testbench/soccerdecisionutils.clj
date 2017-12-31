@@ -130,12 +130,13 @@
       (assoc player :facing-angle new-angle) speed)))
 
 (defn forward-run
-  "player makes forward run at sprint speed"
+  "player angle changed for forward run"
   [player]
-  (let [attacking-goal (:target-goal player)]
-    (if (> (first attacking-goal) (first (:location player)))
-      (assoc player :facing-angle 0)
-      (assoc player :facing-angle 180))))
+  (let [attacking-goal (:target-goal player)
+        midfield-angle (if (> (first attacking-goal) (first (:location player))) 0 180)]
+      (if (< (distance (:location player) attacking-goal) 250) ;TODO: change hard-coded value
+            (assoc player :facing-angle (angle-to-target (:location player) attacking-goal))
+            (assoc player :facing-angle midfield-angle))))
 
 (defn approx-bisecting-pts?
   "check if player is approximately between two pts"

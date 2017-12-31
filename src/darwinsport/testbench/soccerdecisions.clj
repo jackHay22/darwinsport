@@ -37,10 +37,7 @@
     (= pred "shooting-range?") (> shot-range (decisionutils/distance (:location player) (:target-goal player)))
     (= pred "self-space?") (empty? (filter (fn [p] (> space-distance (distfn (:location p)))) opponent))
     (= pred "team-mate-open?") (not (empty? (filter (fn [p] (:open? p)) team)))
-    (= pred "open-forward-pass?") false ;check if there is a team player far enough from an opponent
-    (= pred "self-defensive-third?") false ;TODO
-    (= pred "self-offensive-third?") false ;TODO
-    (= pred "ball-forward?") (let [px (first (:location player))
+    (= pred "ball-forward?") (let [px (first (:location player))   ;note: there is no ball-back as this can just be negated
                                    bx (first (:ball-location player))
                                    gx (first (:target-goal player))]
                                    (or (and (> bx px) (> gx px))
@@ -74,9 +71,6 @@
     (= action "action-recover-ball")
           (decisionutils/move
                 (assoc player :facing-angle (decisionutils/angle-to-target (:location player) (:ball-location player))) run-speed)
-    (= action "directive-shoot") player
-    (= action "directive-self-pass") player
-    (= action "action-short-pass-forward") player
     (= action "action-leading-pass") (decisionutils/leading-pass player
                                      (decisionutils/get-best-open-target player) sprint-speed max-kick-force shot-spacing)
     (= action "action-clear") player
@@ -85,7 +79,6 @@
                 (decisionutils/move (assoc player :possessing-ball? false) walk-speed))
     (= action "action-tackle") player
     (= action "action-forward-run") (decisionutils/move (decisionutils/forward-run player) run-speed)
-    (= action "action-follow-ball") player
     (= action "action-lateral-goal-tend")
             (assoc (decisionutils/lateral-move-between-pts player (:defend-goal player) (:ball-location player) lateral-speed)
                   :facing-angle (decisionutils/angle-to-target (:ball-location player) (:location player)))
@@ -96,15 +89,12 @@
                   (decisionutils/angle-to-target (:location player) (:defend-goal player))) sprint-speed)
     (= action "action-step-to-possesser") (decisionutils/move (assoc player :facing-angle
                   (decisionutils/angle-to-target (:location player) (:location (decisionutils/get-possesser player)))) sprint-speed)
-    (= action "hold") player
     :else (do (println "DEBUG: " action " action not parsed") player)))
 
 (defn player-decide
   "given a player and the players decision code, make a game play decision or all possible decisions"
   [player]
-  (let [decisions (:defined-decisions player)
-        ;directives (:directives player) ;TODO?
-        ]
+  (let [decisions (:defined-decisions player)]
           (reduce
             (fn [p b]
               (if
