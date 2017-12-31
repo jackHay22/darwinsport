@@ -71,6 +71,7 @@
         state (deref game-state)
         score-1 (:score-1 state)
         score-2 (:score-2 state)]
+        ;TODO: reset players and start kickoff
     (do
         (if team-1 (swap! game-state assoc :score-2 (+ 1 score-1)))
         (if team-2 (swap! game-state assoc :score-1 (+ 1 score-2)))

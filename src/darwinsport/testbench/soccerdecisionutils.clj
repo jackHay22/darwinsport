@@ -65,16 +65,21 @@
 
 (defn leading-pass
   "make leading pass to space"
-  [player target target-speed max-kick-force]
+  [player target target-speed max-kick-force shot-spacing]
   (let [target-loc-current (:location target)
         target-angle (:facing-angle target)
         p2 (pt-at-angle target-angle target-loc-current target-speed)
         target-trajectory-fn (utilities/pts-eqn target-loc-current p2)
-        relative-frame-distance (/ (distance (:location player) target-loc-current) max-kick-force)
-        x-guess 0 ;TODO: using correct direction, estimate frames ahead using relative frame distance and calculate y
-        y-guess 0]
-
-    ))
+        relative-frame-distance (* (/ (distance (:location player) target-loc-current) max-kick-force) 2)
+        target-running-dist (* target-speed relative-frame-distance)
+        ;check direction to calculate x pt.
+        x-guess (if (> (first p2) (first target-loc-current))
+                  (+ (first target-loc-current) target-running-dist)
+                  (- (first target-loc-current) target-running-dist))
+        y-guess (target-trajectory-fn x-guess)]
+        (do
+          (kick-ball player (list x-guess y-guess) max-kick-force shot-spacing)
+          player)))
 
 (defn dribble
   "dribble move"
@@ -150,7 +155,12 @@
 (defn get-best-open-target
   "find the best positioned forward player"
   [player]
+  ;TODO: figure out farthest/safest pass
   (let [open-team (filter #(:open? %) (:team player))
-        forward-dir-x (first (:target-goal player))]
-        ;TODO: check for players between player and target goal, if none, first open
+        self-x (first (:location player))
+        forward-dir-x (first (:target-goal player))
+        comp (if (> forward-dir-x self-x) > <)
+        forward-players (filter (fn [p] (comp (first (:location p)) self-x)) open-team)
+        best (if (not (empty? forward-players)) (first forward-players) (first open-team))]
+        best
   ))

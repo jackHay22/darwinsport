@@ -1,3 +1,0 @@
-and shooting-range? : action-shoot
-and self-ball-possessed? : action-self-dribble-forward
-and !self-ball-possessed? : action-defensive-drop

@@ -42,13 +42,12 @@
     (= pred "self-offensive-third?") false ;TODO
     (= pred "self-defending-square-to-goal?") (decisionutils/approx-bisecting-pts? player (:defend-goal player)
                                                   (:ball-location player) 60) ;settle-radius) ;TODO: sort this out
-    (= pred "close-to-goal?") false ;TODO
     (= pred "tackle-range?") (> space-distance (decisionutils/distance (:location player) (:location (decisionutils/get-possesser player))))
     (= pred "team-possessing-ball?") (not (empty? (filter (fn [p] (:possessing-ball? p)) team)))
     (= pred "opponent-possessing-ball?") (not (empty? (filter (fn [p] (:possessing-ball? p)) opponent)))
     (= pred "true") true
     (= pred "false") false
-    :else false)))
+    :else (do (println "DEBUG: " pred " predicate not parsed") false))))
 
 (defn perform-action
   "UTILITY: perform the action(s) described
@@ -58,20 +57,20 @@
   (cond
     (vector? action)  (reduce #(perform-action %2 %1) player action)
     (= action "action-longest-pass-forward") player
-    (= action "action-self-dribble-forward") (do (decisionutils/dribble player run-speed dribble-spacing dribble-force) (decisionutils/move player run-speed))
+    (= action "action-dribble-forward") (do (decisionutils/dribble player run-speed dribble-spacing dribble-force) (decisionutils/move player run-speed))
     (= action "action-settle-ball")
             (do (decisionutils/ball-move 0 (:facing-angle player)) (assoc player :posessing-ball? true))
     (= action "directive-shoot") player
     (= action "directive-self-pass") player
     (= action "action-short-pass-forward") player
     (= action "action-leading-pass") (decisionutils/leading-pass player
-                                          (decisionutils/get-best-open-target player) sprint-speed max-kick-force)
+                                          (decisionutils/get-best-open-target player) sprint-speed max-kick-force shot-spacing)
     (= action "action-clear") player
     (= action "action-shoot")
             (do (decisionutils/kick-ball player (:target-goal player) max-kick-force shot-spacing)
                 (decisionutils/move (assoc player :possessing-ball? false) walk-speed))
     (= action "action-tackle") player
-    (= action "action-forward-run") (decisionutils/forward-run player)
+    (= action "action-forward-run") (decisionutils/move (decisionutils/forward-run player) run-speed)
     (= action "action-follow-ball") player
     (= action "action-lateral-goal-tend")
             (assoc (decisionutils/lateral-move-between-pts player (:defend-goal player) (:ball-location player) lateral-speed)
@@ -84,7 +83,7 @@
     (= action "action-step-to-possesser") (decisionutils/move (assoc player :facing-angle
                   (decisionutils/angle-to-target (:location player) (:location (decisionutils/get-possesser player)))) sprint-speed)
     (= action "hold") player
-    :else player))
+    :else (do (println "DEBUG: " action " action not parsed") player)))
 
 (defn player-decide
   "given a player and the players decision code, make a game play decision or all possible decisions"

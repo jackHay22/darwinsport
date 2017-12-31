@@ -6,4 +6,4 @@
  :possessing-ball? true
  :open? true
  :assigned-image "images/players/team1player2.png"
- :defined-decisions "testfiles/decisionfiles/single_decision.txt"}
+ :defined-decisions "testfiles/decisionfiles/offensive_decisions.txt"}

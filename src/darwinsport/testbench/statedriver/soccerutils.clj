@@ -18,7 +18,6 @@
       (> x2 x) (< x2 (+ x w))
       (> y2 y) (< y2 (+ y h)))))
 
-;TODO: broken!
 (defn bounded-box-intersection?
   "take two upper left corner pts, two sets of
   w h, check intersection"

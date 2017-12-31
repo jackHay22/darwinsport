@@ -8,7 +8,7 @@
 ; Game manager and update driver
 
 (def paused? (atom false))
-(def players-state (atom (:teams config/teams)))
+(def players-state (atom config/teams))
 
 (defn update-and-draw
   "update the graphical window"

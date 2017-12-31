@@ -12,20 +12,21 @@
 ; -----------------------------
 ; Players, supporting functions
 
-;TODO: not working
 (defn no-intersection
   "take player and list of players and check for intersects"
   [p all]
   (let [width (.getWidth (:assigned-image p))
         height (.getHeight (:assigned-image p))
-        intersectfn (utilities/bounded-box-intersection? (:location p) width height)]
+        upper-left-correct (list (- (first (:location p)) (/ width 2))
+                                 (- (second (:location p)) (/ height 2)))
+        intersectfn (utilities/bounded-box-intersection? upper-left-correct width height)]
     (empty?
       (filter (fn [other] (intersectfn (:location other) width height)) all))))
 
 (defn update-player
     "Take in player and make decisions with interpreter"
     [player all-players]
-    ;NOTE: if opponent is within a radius of the player, probabalistically tackle
+    ;NOTE/TODO: if opponent is within a radius of the player, probabalistically tackle
     (let [current-id (:id player)
           all-others (filter (fn [p] (not (= current-id (:id p)))) all-players)
           updated-player (interp/player-decide player)]
