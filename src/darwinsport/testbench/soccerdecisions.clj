@@ -40,6 +40,11 @@
     (= pred "open-forward-pass?") false ;check if there is a team player far enough from an opponent
     (= pred "self-defensive-third?") false ;TODO
     (= pred "self-offensive-third?") false ;TODO
+    (= pred "ball-forward?") (let [px (first (:location player))
+                                   bx (first (:ball-location player))
+                                   gx (first (:target-goal player))]
+                                   (or (and (> bx px) (> gx px))
+                                       (and (< bx px) (< gx px))))
     (= pred "self-closest-to-ball?")
           (let [player-ball-dist (distfn (:ball-location player))]
               (empty? (filter #(< (decisionutils/distance (:location %) (:ball-location player)) player-ball-dist) team)))
@@ -61,9 +66,9 @@
     (vector? action)  (reduce #(perform-action %2 %1) player action)
     (= action "action-longest-pass-forward") player
     (= action "action-dribble-forward") (let [facing-goal (assoc player :facing-angle
-                                                              (decisionutils/angle-to-target (:location player) (:target-goal player)))]
-                                              (decisionutils/dribble facing-goal run-speed dribble-spacing dribble-force)
-                                              (decisionutils/move facing-goal run-speed))
+                                              (decisionutils/angle-to-target (:location player) (:target-goal player)))]
+                                          (decisionutils/dribble facing-goal run-speed dribble-spacing dribble-force)
+                                          (decisionutils/move facing-goal run-speed))
     (= action "action-settle-ball")
             (do (decisionutils/ball-move 0 (:facing-angle player)) (assoc player :possessing-ball? true))
     (= action "action-recover-ball")
@@ -73,7 +78,7 @@
     (= action "directive-self-pass") player
     (= action "action-short-pass-forward") player
     (= action "action-leading-pass") (decisionutils/leading-pass player
-                                          (decisionutils/get-best-open-target player) sprint-speed max-kick-force shot-spacing)
+                                     (decisionutils/get-best-open-target player) sprint-speed max-kick-force shot-spacing)
     (= action "action-clear") player
     (= action "action-shoot")
             (do (decisionutils/kick-ball player (:target-goal player) max-kick-force shot-spacing)
@@ -86,7 +91,7 @@
                   :facing-angle (decisionutils/angle-to-target (:ball-location player) (:location player)))
     (= action "action-intersect-path-defend-ball")
             (decisionutils/move-bisect player (:defend-goal player) (:location (decisionutils/get-possesser player)) sprint-speed)
-    (= action "action-defensive-drop") ;TODO: not working
+    (= action "action-defensive-drop")
             (decisionutils/move (assoc player :facing-angle
                   (decisionutils/angle-to-target (:location player) (:defend-goal player))) sprint-speed)
     (= action "action-step-to-possesser") (decisionutils/move (assoc player :facing-angle
@@ -98,7 +103,7 @@
   "given a player and the players decision code, make a game play decision or all possible decisions"
   [player]
   (let [decisions (:defined-decisions player)
-        ;directives (:directives player)
+        ;directives (:directives player) ;TODO?
         ]
           (reduce
             (fn [p b]
