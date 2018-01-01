@@ -81,6 +81,3 @@ and !opponent-possessing-ball? ball-forward? : action-forward-run
 - Image currently setup for raspberry pi java (for cluster)
 - TCP port 5555 used to communicate across local swarm network
 - Graphical mode should not be enabled in swarm mode as it slows computation to real time and introduces inefficiencies.
-
-## App build
-``` javapackager -deploy -native image -outdir out -outfile darwinsport.app -srcfiles target/uberjar/darwinsport-0.1.0-SNAPSHOT-standalone.jar -appclass darwinsport.core -name "DarwinSport" -title "DarwinSport" -Bruntime= -Bicon=resources/images/Darwin.icns ```
