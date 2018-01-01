@@ -18,26 +18,20 @@
       (> x2 x) (< x2 (+ x w))
       (> y2 y) (< y2 (+ y h)))))
 
-(defn bounded-box-intersection?
+(defn radial-intersection?
   "take two upper left corner pts, two sets of
   w h, check intersection"
-  [xy1 w1 h1]
-  (let [x11 (first xy1)
-        y11 (second xy1)
-        x12 (+ x11 w1)
-        y12 (+ y11 h1)
-        boundfn1 (pt-in-bounds x11 y11 w1 h1)]
-
-  (fn [xy2 w2 h2]
-    (let [x21 (first xy2)
-          y21 (second xy2)
-          x22 (+ x21 w2)
-          y22 (+ y21 h2)
-          boundfn2 (pt-in-bounds x21 y21 w2 h2)]
-    (or
-      ;TODO: fix how shitty this is
-      (boundfn1 x21 y21) (boundfn1 x22 y21) (boundfn1 x21 y22) (boundfn1 x22 y22)
-      (boundfn2 x21 y21) (boundfn2 x22 y21) (boundfn2 x21 y22) (boundfn2 x22 y22))))))
+  [pt r]
+  (let [x1 (first pt)
+        y1 (second pt)
+        dist-fn (fn [xy]
+                  (let [x2 (first xy)
+                        y2 (second xy)
+                        ydif (- y2 y1)
+                        xdif (- x2 x1)]
+                    (Math/sqrt (+ (* xdif xdif) (* ydif ydif)))))]
+    (fn [p2]
+      (> r (dist-fn p2)))))
 
 (defn load-image
   "load image from location"

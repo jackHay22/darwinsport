@@ -15,13 +15,12 @@
 (defn no-intersection
   "take player and list of players and check for intersects"
   [p all]
-  (let [width (.getWidth (:assigned-image p))
-        height (.getHeight (:assigned-image p))
-        upper-left-correct (list (- (first (:location p)) (/ width 2))
-                                 (- (second (:location p)) (/ height 2)))
-        intersectfn (utilities/bounded-box-intersection? upper-left-correct width height)]
+  (let [radius (/ (max (.getWidth (:assigned-image p))
+                    (.getHeight (:assigned-image p))) 2)
+        center (list (first (:location p)) (second (:location p)))
+        intersectfn (utilities/radial-intersection? center radius)]
     (empty?
-      (filter (fn [other] (intersectfn (:location other) width height)) all))))
+      (filter (fn [other] (intersectfn (:location other))) all))))
 
 (defn update-player
     "Take in player and make decisions with interpreter"
@@ -31,8 +30,7 @@
           all-others (filter (fn [p] (not (= current-id (:id p)))) all-players)
           updated-player (interp/player-decide player)]
         (if (no-intersection updated-player all-others)
-          updated-player
-          player)))
+          updated-player player)))
 
 (defn associate-team-to-player
   "take a player, associate that player's team field with a team list"

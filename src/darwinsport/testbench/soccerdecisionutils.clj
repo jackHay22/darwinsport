@@ -44,6 +44,15 @@
           (+ x (* dist (Math/cos angle)))
           (+ y (* dist (Math/sin angle))))))
 
+(defn clear-line?
+  "take two pts, list of obstacle pts, epsilon, and check for interference"
+  [p1 p2 obstacles radius]
+  (let [pts-line-fn (utilities/pts-eqn p1 p2)]
+  ;TODO: check this works right, potential efficiency increase with reduce/reduced
+      (empty?
+          (filter (fn [obs-pt] (> radius (Math/abs (int (- (pts-line-fn (first obs-pt)) (second obs-pt))))))
+                  obstacles))))
+
 (defn self-closest-to-ball
   "check if player is the closest to the ball on their team"
   [player]
@@ -53,9 +62,9 @@
 (defn kick-ball
   "kick the game ball if close enough"
   [player target max-kick-force shot-spacing]
-  (let [player-center-x (+ (/ (.getWidth (:assigned-image player)) 2) (first (:location player)))
-        player-center-y (+ (/ (.getHeight (:assigned-image player)) 2) (second (:location player)))
-        dist-player-to-ball (distance (fieldstate/ball-location) (list player-center-x player-center-y))
+  (let [player-center-x (first (:location player))
+        player-center-y (second (:location player))
+        dist-player-to-ball (distance (:ball-location player) (list player-center-x player-center-y))
         calculate-angle (angle-to-target (:location player) target)
         calculate-velocity (/ (distance (:location player) target) 10)
         throttle-force (if (> calculate-velocity max-kick-force) max-kick-force calculate-velocity)]
@@ -168,13 +177,23 @@
   [player]
   ;TODO: figure out farthest/safest pass
   (let [open-team (filter #(:open? %) (:team player))
+        all-opponents-locations (map :location (:opponent player))
         self-x (first (:location player))
         forward-dir-x (first (:target-goal player))
         comp (if (> forward-dir-x self-x) > <)
         forward-players (filter (fn [p] (comp (first (:location p)) self-x)) open-team)
+        unobstructed-forward (filter #(clear-line?
+                                          (:location player)
+                                          (:location %)
+                                          all-opponents-locations 20) forward-players) ;TODO: remove hardcoded radius
         distfn #(distance (:location player) %)
         assoc-dist-players (map (fn [p] (assoc p :dist (distfn (:location p)))) open-team)
-        closest-player (reduce (fn [best next] (if (< (:dist next) (:dist best)) next best)) assoc-dist-players)]
+        closest-player (reduce
+                          (fn [best next]
+                            (if (and
+                                  (< (:dist next) (:dist best))
+                                  (clear-line? (:location player) (:location next) all-opponents-locations 20))
+                              next best)) assoc-dist-players)]
         (cond
-          (not (empty? forward-players)) (first forward-players)
+          (not (empty? unobstructed-forward)) (first unobstructed-forward)
           :else closest-player)))

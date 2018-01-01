@@ -1,3 +1,0 @@
-and self-ball-posessed? self-space? : self-dribble give-directive
-and self-ball-posessed? !self-space? team-mate-open? : action-pass-forward-to-open
-or self-in-defensive-third? !self-space? : action-clear-towards-goal

@@ -68,7 +68,8 @@
                                           (decisionutils/dribble facing-goal run-speed dribble-spacing dribble-force)
                                           (decisionutils/move facing-goal run-speed))
     (= action "action-settle-ball")
-            (do (decisionutils/ball-move 0 (:facing-angle player)) (assoc player :possessing-ball? true))
+          (if (> settle-radius (decisionutils/distance (:location player) (:ball-location player)))
+            (do (decisionutils/ball-move 0 (:facing-angle player)) (assoc player :possessing-ball? true)))
     (= action "action-recover-ball")
           (decisionutils/move
                 (assoc player :facing-angle (decisionutils/angle-to-target (:location player) (:ball-location player))) run-speed)
@@ -91,6 +92,10 @@
     (= action "action-step-to-possesser") (decisionutils/move (assoc player :facing-angle
                   (decisionutils/angle-to-target (:location player) (:location (decisionutils/get-possesser player)))) sprint-speed)
     (= action "action-outside-run") (decisionutils/move (decisionutils/outside-forward-run player) sprint-speed)
+    (= action "action-hold") player
+    (= action "action-support-attack") (decisionutils/move
+                                          (assoc player :facing-angle
+                                                (decisionutils/angle-to-target (:location player) (:ball-location player))) walk-speed)
     :else (do (println "DEBUG: " action " action not parsed") player)))
 
 (defn player-controlled
