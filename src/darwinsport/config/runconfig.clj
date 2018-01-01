@@ -21,6 +21,7 @@
     {:run-speed 1
      :walk-speed 0.2
      :sprint-speed 1.1
+     :controlled-speed 4
      :lateral-speed 0.8
      :space? 55
      :dribble-spacing 15
@@ -43,6 +44,7 @@
     ("testfiles/players/reis.txt" 1)
     ("testfiles/players/ritchie.txt" 1)
     ("testfiles/players/gayle.txt" 1)
+    ("testfiles/players/perez.txt" 1)
     ("testfiles/players/yedlin.txt" 0)
     ("testfiles/players/lascelles.txt" 0)
     ("testfiles/players/howard.txt" 0)))

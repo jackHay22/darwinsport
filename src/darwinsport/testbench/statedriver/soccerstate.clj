@@ -36,6 +36,8 @@
   "respond to keypress event"
   [key]
   ;update player characteristics based on end of key press
-  (if (= key :p)
-    (let [p (deref paused?)]
-      (reset! paused? (not p)))))
+  (cond
+    (= key :p) (let [p (deref paused?)]
+                  (reset! paused? (not p)))
+    (or (= key :space) (= key :left) (= key :right) (= key :down) (= key :up))
+                  (reset! players-state (players/user-player-update (deref players-state) key))))

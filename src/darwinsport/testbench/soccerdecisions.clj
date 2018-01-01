@@ -13,6 +13,7 @@
 (def space-distance (:space? config-data))
 (def run-speed (:run-speed config-data))
 (def walk-speed (:walk-speed config-data))
+(def controlled-speed (:controlled-speed config-data))
 (def lateral-speed (:lateral-speed config-data))
 (def sprint-speed (:sprint-speed config-data))
 (def dribble-spacing (:dribble-spacing config-data))
@@ -92,15 +93,29 @@
     (= action "action-outside-run") (decisionutils/move (decisionutils/outside-forward-run player) sprint-speed)
     :else (do (println "DEBUG: " action " action not parsed") player)))
 
+(defn player-controlled
+  "take player being controlled by user and input and make decision (i.e. dribble)"
+  [player direction]
+  (let [current-angle (:facing-angle player)]
+  (cond
+    ;TODO: speed not working super well
+    (= direction :up) (decisionutils/move player controlled-speed)
+    (= direction :down) (decisionutils/move player controlled-speed)
+    (= direction :left) (assoc player :facing-angle (+ 5 current-angle))
+    (= direction :right) (assoc player :facing-angle (- current-angle 5))
+    (= direction :space) (do (decisionutils/kick-ball player (:target-goal player) max-kick-force shot-spacing) player))))
+
 (defn player-decide
   "given a player and the players decision code, make a game play decision or all possible decisions"
   [player]
-  (let [decisions (:defined-decisions player)]
-          (reduce
-            (fn [p b]
-              (if
-                (check-predicate (first b) p)
-                (let [player-res (perform-action (second b) p)]
-                  (if first-decision-only? (reduced player-res) player-res))
-                 p))
-           player decisions)))
+  (let [decisions (:defined-decisions player)
+        autonomous? (or (:autonomous-when-idle? player) (not (:user-controlled? player)))]
+          (if autonomous?
+            (reduce
+              (fn [p b]
+                (if
+                  (check-predicate (first b) p)
+                  (let [player-res (perform-action (second b) p)]
+                    (if first-decision-only? (reduced player-res) player-res))
+                  p))
+                  player decisions) player)))

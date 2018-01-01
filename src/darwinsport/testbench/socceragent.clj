@@ -56,6 +56,13 @@
         ball-aware (map #(assoc % :ball-location ball-location) opponent-aware)]
         (map #(update-player % all-players) ball-aware)))
 
+(defn user-player-update
+  "update the user-controlled player and return all others"
+  [all-players direction]
+  (map
+    (fn [player] (if (:user-controlled? player) (interp/player-controlled player direction) player))
+    all-players))
+
 (defn draw-player
     "take graphics object, draw player based on current state (if graphics enabled)"
     [gr p]

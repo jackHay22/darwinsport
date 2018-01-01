@@ -30,30 +30,33 @@
 
 ## Player Attributes
 ```
-    { :location (55 55)                         ;current location of player
-      :facing-angle 45                          ;angle the player is currently facing
-      :assigned-image "file"                    ;file of image to use in graphic mode
-      :team ()                                  ;all other players on this player's team
-      :opponent ()                              ;all players on the opposing side
-      :ball-location (() ())                    ;location of the ball
-      :possessing-ball? false                   ;indication of whether the player is possessing the ball
-      :open? true                               :whether or not player is describing himself as open
-      :defined-decisions () }                   ;decision code (see below) that the player is capable of
+  {:location (400 350)
+   :facing-angle 0
+   :possessing-ball? false
+   :open? true
+   :user-controlled? true                         ;signifies if a player can be user controlled   
+   :autonomous-when-idle? true                    ;if player can be user controlled, this will access defined decisions in the absence of user input
+   :assigned-image "images/players/team1player4.png"
+   :defined-decisions "testfiles/decisionfiles/offensive_decisions.txt"}
 ```
 
 ## Decision Code      
 Syntax example:
 ```
-and self-ball-posessed? self-space? : self-dribble
-and self-ball-posessed? !self-space? team-mate-open? : action-short-pass-forward
-or self-defensive-third? !self-space? : action-clear
+and ball-settle-radius? !self-ball-possessed? : action-settle-ball
+and self-ball-possessed? self-space? shooting-range? : action-shoot
+and self-ball-possessed? !self-space? team-mate-open? : action-leading-pass
+and self-ball-possessed? self-space? : action-dribble-forward
+and !self-ball-possessed? team-possessing-ball? : action-forward-run
+and self-closest-to-ball? !opponent-possessing-ball? : action-recover-ball
+and !opponent-possessing-ball? ball-forward? : action-forward-run
 ```
-- IMPORTANT NOTE: later actions have the potential to overwrite actions at the beginning!
+- IMPORTANT NOTE: later actions have the potential to overwrite actions at the beginning unless ``` :first-decision-only? true ``` is specified in config!
   - i.e. if an instruction causes the player to move in one direction, a future action in a different direction will overwrite that state
   - Therefore, actions should be designed to be clear cut and care should be exercised when writing actions that could potentially conflict
 - All predicates can be inverted by adding ``` ! ``` on the front.
 - All predicate decision pairs are structured ``` and|or p p ... p : a a ... a ```
-- The following are valid predicates:
+- The following are valid predicates (not all listed here):
   - ``` self-ball-posessed? ```
   - ``` self-space? ```
   - ``` team-mate-open? ```
@@ -67,9 +70,6 @@ or self-defensive-third? !self-space? : action-clear
 - The following are valid actions:
   - ``` action-longest-pass-forward ```
   - ``` action-self-dribble-forward ```
-  - ``` directive-shoot ```  Not sure if directives will be used
-  - ``` directive-self-pass ```
-  - ``` directive- ```
   - ``` action-short-pass-forward ```
   - ``` action-clear ```
   - ``` action-shoot ```
