@@ -40,13 +40,13 @@
 
 (def roster
   ;player file and team number
-  '(("resources/players/shelvey.txt" 1)
-    ("resources/players/reis.txt" 1)
-    ("resources/players/ritchie.txt" 1)
-    ("resources/players/gayle.txt" 1)
-    ("resources/players/perez.txt" 1)
-    ("resources/players/yedlin.txt" 0)
-    ("resources/players/lascelles.txt" 0)
-    ("resources/players/howard.txt" 0)))
+  '(("players/shelvey.txt" 1)
+    ("players/reis.txt" 1)
+    ("players/ritchie.txt" 1)
+    ("players/gayle.txt" 1)
+    ("players/perez.txt" 1)
+    ("players/yedlin.txt" 0)
+    ("players/lascelles.txt" 0)
+    ("players/howard.txt" 0)))
 
 (def teams (map #(utilities/load-player (first %1) (second %1) %2 framework) roster (range)))

@@ -3,4 +3,4 @@
  :possessing-ball? false
  :open? true
  :assigned-image "images/players/team1keeper.png"
- :defined-decisions "resources/decisionfiles/keeper_decisions.txt"}
+ :defined-decisions "decisionfiles/keeper_decisions.txt"}

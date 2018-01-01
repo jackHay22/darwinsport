@@ -1,4 +1,5 @@
 (ns darwinsport.testbench.statedriver.soccerutils
+  (:require [clojure.java.io :as io] )
   (:gen-class))
 
 ; -----------------
@@ -42,14 +43,16 @@
 (defn load-decision-code
   "load instructions from file"
   [location-file]
-  (map (fn [instr-pair] (map #(clojure.string/split % #" ") instr-pair))
-      (map (fn [line] (clojure.string/split line #" : "))
-            (clojure.string/split-lines (slurp location-file)))))
+  (with-open [reader (clojure.java.io/reader (io/resource location-file))]
+    (map (fn [instr-pair] (map #(clojure.string/split % #" ") instr-pair))
+        (map (fn [line] (clojure.string/split line #" : "))
+            (clojure.string/split-lines (clojure.string/join "\n" (line-seq reader)))))))
+
 
 (defn load-player
     "takes a player in file and loads images, code, etc..."
     [playerfile teamnumber id config]
-    (with-open [reader (clojure.java.io/reader playerfile)]
+    (with-open [reader (clojure.java.io/reader (io/resource playerfile))]
     (let [loaded-player (read-string (clojure.string/join (line-seq reader)))
           player-expansion
             {:team-number teamnumber
