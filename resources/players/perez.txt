@@ -5,4 +5,4 @@
  :user-controlled? true
  :autonomous-when-idle? true
  :assigned-image "images/players/team1player4.png"
- :defined-decisions "testfiles/decisionfiles/center_decisions.txt"}
+ :defined-decisions "resources/decisionfiles/center_decisions.txt"}

@@ -49,7 +49,8 @@
 (defn load-player
     "takes a player in file and loads images, code, etc..."
     [playerfile teamnumber id config]
-    (let [loaded-player (read-string (slurp playerfile))
+    (with-open [reader (clojure.java.io/reader playerfile)]
+    (let [loaded-player (read-string (clojure.string/join (line-seq reader)))
           player-expansion
             {:team-number teamnumber
              :id id
@@ -63,4 +64,4 @@
              :passes 0
              :total-touches 0
              }]
-    (merge loaded-player player-expansion)))
+    (merge loaded-player player-expansion))))
