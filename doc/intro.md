@@ -1,4 +1,4 @@
-# Clojure DarwinSport
+# DarwinSport
 
 ## Build image
 - To build new image:
@@ -11,8 +11,8 @@
   - ```Sending build context to Docker daemon  <size>MB```
 
 ## Resources
-- Player config files can be found in ``` testfiles/players ```
-- Decision code files can be found in ``` testfiles/decisionfiles ```
+- Player config files can be found in ``` resources/players ```
+- Decision code files can be found in ``` resources/decisionfiles ```
 - Graphical resources can be found in ``` resources/images ```
 
 ## Graphical mode
